@@ -1,11 +1,10 @@
-// Real OSINT & Intelligence Tools for Indian & Global Phone Numbers, Handles, and Public Records
+// Real OSINT & Intelligence Tools for Indian & Global Phone Numbers, Handles, Emails, and Public Records
 // Created for Detective-L by Rakesh Soni
 
 /**
  * Indian Telecom Circles mapping according to DoT (Department of Telecommunications) & TRAI
  */
 const INDIAN_TELECOM_CIRCLES = {
-  // Northern
   'DL': 'Delhi NCR',
   'HR': 'Haryana',
   'PB': 'Punjab',
@@ -14,18 +13,15 @@ const INDIAN_TELECOM_CIRCLES = {
   'UPW': 'Uttar Pradesh (West) & Uttarakhand',
   'UPE': 'Uttar Pradesh (East)',
   'RJ': 'Rajasthan',
-  // Western
   'MH': 'Maharashtra & Goa',
   'MB': 'Mumbai Metro',
   'GJ': 'Gujarat',
   'MP': 'Madhya Pradesh & Chhattisgarh',
-  // Southern
   'AP': 'Andhra Pradesh & Telangana',
   'KA': 'Karnataka (Bangalore)',
   'TN': 'Tamil Nadu & Pondicherry',
   'CH': 'Chennai Metro',
   'KL': 'Kerala & Lakshadweep',
-  // Eastern
   'WB': 'West Bengal & Sikkim',
   'KO': 'Kolkata Metro',
   'OR': 'Odisha',
@@ -34,11 +30,8 @@ const INDIAN_TELECOM_CIRCLES = {
   'AS': 'Assam'
 };
 
-/**
- * Common Indian Mobile Series Prefix Mapping (MSC Code Sample Registry)
- */
 const INDIAN_OPERATOR_PREFIXES = {
-  // Jio (Series 6, 7, 8, 9)
+  // Jio
   '700': { operator: 'Reliance Jio Infocomm', circle: 'National 4G/5G' },
   '701': { operator: 'Reliance Jio Infocomm', circle: 'National 4G/5G' },
   '702': { operator: 'Reliance Jio Infocomm', circle: 'National 4G/5G' },
@@ -118,7 +111,6 @@ const INDIAN_OPERATOR_PREFIXES = {
 export function analyzePhoneNumber(rawInput) {
   if (!rawInput) return null;
   
-  // Clean non-digits except +
   let cleaned = rawInput.replace(/[^\d+]/g, '');
   let isIndian = false;
   let nationalNumber = '';
@@ -174,6 +166,41 @@ export function analyzePhoneNumber(rawInput) {
       telecomCircle: circleName,
       circleCode: circleCode,
       lineType: 'Mobile (GSM / VoLTE / 5G SA)',
+      
+      // Real-world Methods to find the Real Registered Name Behind the Phone Number
+      nameDiscoveryMethods: [
+        {
+          method: "UPI Bank Verification (100% Legal & Accurate)",
+          description: "Initiating a ₹1 or verification transfer to 'number@paytm', 'number@ybl', or 'number@okhdfcbank' on Google Pay, PhonePe, Paytm, or BHIM queries NPCI banking servers and immediately displays the exact legal account holder's registered bank name.",
+          actionLabel: "Test UPI Handles",
+          type: "upi"
+        },
+        {
+          method: "WhatsApp Profile & Display Card",
+          description: "Opening direct WhatsApp chat via 'wa.me/91...' allows viewing public display name, avatar, and bio without saving contact.",
+          url: `https://wa.me/91${nationalNumber}`,
+          actionLabel: "Open WhatsApp Profile"
+        },
+        {
+          method: "Truecaller Web Directory Lookup",
+          description: "Crowdsourced caller registry containing over 350 million active Indian user records.",
+          url: `https://www.truecaller.com/search/in/${nationalNumber}`,
+          actionLabel: "Search Truecaller Registry"
+        },
+        {
+          method: "Sync.ME & Public Caller Index",
+          description: "Reverse phone search engine with synced social profiles.",
+          url: `https://sync.me/search/?number=+91${nationalNumber}`,
+          actionLabel: "Search Sync.ME"
+        },
+        {
+          method: "Telegram Contact Resolver",
+          description: "Check if the phone number has a public Telegram account or channel attached.",
+          url: `https://t.me/+91${nationalNumber}`,
+          actionLabel: "Check Telegram Link"
+        }
+      ],
+
       possibleUPIVPAs: [
         `${nationalNumber}@paytm`,
         `${nationalNumber}@ybl (PhonePe)`,
@@ -205,6 +232,26 @@ export function analyzePhoneNumber(rawInput) {
     operator: 'International Telecom Carrier',
     telecomCircle: 'International Gateway',
     lineType: 'Mobile / Landline / VoIP',
+    nameDiscoveryMethods: [
+      {
+        method: "WhatsApp Direct Check",
+        description: "Verify active WhatsApp profile and bio.",
+        url: `https://wa.me/${nationalNumber}`,
+        actionLabel: "Open WhatsApp"
+      },
+      {
+        method: "Truecaller Global Directory",
+        description: "Search worldwide crowdsourced directory.",
+        url: `https://www.truecaller.com/search/global/${nationalNumber}`,
+        actionLabel: "Query Truecaller"
+      },
+      {
+        method: "Sync.ME International Search",
+        description: "Reverse global caller ID search.",
+        url: `https://sync.me/search/?number=${nationalNumber}`,
+        actionLabel: "Search Sync.ME"
+      }
+    ],
     possibleUPIVPAs: [],
     whatsappDirectLink: `https://wa.me/${nationalNumber}`,
     telegramSearchQuery: `https://t.me/+${nationalNumber}`,
@@ -221,18 +268,86 @@ export function analyzePhoneNumber(rawInput) {
  * Top OSINT Username Scanner across major platforms
  */
 export const POPULAR_OSINT_PLATFORMS = [
-  { name: 'GitHub', url: 'https://github.com/{username}', icon: 'github' },
-  { name: 'Twitter / X', url: 'https://x.com/{username}', icon: 'twitter' },
-  { name: 'Instagram', url: 'https://instagram.com/{username}', icon: 'instagram' },
-  { name: 'Reddit', url: 'https://reddit.com/user/{username}', icon: 'reddit' },
-  { name: 'Telegram', url: 'https://t.me/{username}', icon: 'telegram' },
-  { name: 'LinkedIn', url: 'https://www.google.com/search?q=site:linkedin.com/in/{username}', icon: 'linkedin' },
-  { name: 'Pinterest', url: 'https://pinterest.com/{username}', icon: 'pinterest' },
-  { name: 'Medium', url: 'https://medium.com/@{username}', icon: 'medium' },
-  { name: 'YouTube', url: 'https://youtube.com/@{username}', icon: 'youtube' },
-  { name: 'Keybase', url: 'https://keybase.io/{username}', icon: 'keybase' },
-  { name: 'HackerNews', url: 'https://news.ycombinator.com/user?id={username}', icon: 'hackernews' }
+  { name: 'GitHub', category: 'Developer', url: 'https://github.com/{username}' },
+  { name: 'Twitter / X', category: 'Social', url: 'https://x.com/{username}' },
+  { name: 'Instagram', category: 'Social', url: 'https://instagram.com/{username}' },
+  { name: 'Reddit', category: 'Community', url: 'https://reddit.com/user/{username}' },
+  { name: 'Telegram', category: 'Messenger', url: 'https://t.me/{username}' },
+  { name: 'LinkedIn', category: 'Professional', url: 'https://www.google.com/search?q=site:linkedin.com/in/{username}' },
+  { name: 'YouTube', category: 'Video', url: 'https://youtube.com/@{username}' },
+  { name: 'TikTok', category: 'Social', url: 'https://www.tiktok.com/@{username}' },
+  { name: 'Medium', category: 'Blogging', url: 'https://medium.com/@{username}' },
+  { name: 'Pinterest', category: 'Media', url: 'https://pinterest.com/{username}' },
+  { name: 'GitLab', category: 'Developer', url: 'https://gitlab.com/{username}' },
+  { name: 'Keybase', category: 'Crypto/Identity', url: 'https://keybase.io/{username}' },
+  { name: 'Twitch', category: 'Streaming', url: 'https://twitch.tv/{username}' },
+  { name: 'Steam', category: 'Gaming', url: 'https://steamcommunity.com/id/{username}' },
+  { name: 'Spotify', category: 'Music', url: 'https://open.spotify.com/user/{username}' },
+  { name: 'Linktree', category: 'Links', url: 'https://linktr.ee/{username}' },
+  { name: 'HackerNews', category: 'Tech', url: 'https://news.ycombinator.com/user?id={username}' },
+  { name: 'Substack', category: 'Newsletter', url: 'https://{username}.substack.com' }
 ];
+
+/**
+ * Real Email Address OSINT & Breach Reconnaissance
+ */
+export function analyzeEmailAddress(rawEmail) {
+  if (!rawEmail || !rawEmail.includes('@')) {
+    return null;
+  }
+
+  const email = rawEmail.trim().toLowerCase();
+  const [userPart, domainPart] = email.split('@');
+
+  const isFreeProvider = ['gmail.com', 'yahoo.com', 'outlook.com', 'hotmail.com', 'icloud.com', 'proton.me', 'protonmail.com', 'zoho.com', 'rediffmail.com'].includes(domainPart);
+  const isDisposable = ['tempmail.com', '10minutemail.com', 'mailinator.com', 'guerrillamail.com', 'trashmail.com'].includes(domainPart);
+
+  return {
+    email: email,
+    username: userPart,
+    domain: domainPart,
+    isFreeProvider: isFreeProvider,
+    isDisposable: isDisposable,
+    providerType: isDisposable ? 'Disposable / Burner Email' : isFreeProvider ? 'Major Public Webmail' : 'Custom Corporate / Private Domain',
+    
+    // Direct OSINT Recon Links for Email
+    investigationLinks: [
+      {
+        name: "Epieos (Email Google / Account Profiler)",
+        url: `https://epieos.com/?q=${encodeURIComponent(email)}`,
+        description: "Extracts linked Google Calendar IDs, Google Maps review history, and avatars without triggering alerts."
+      },
+      {
+        name: "HaveIBeenPwned Breach Records",
+        url: `https://haveibeenpwned.com/unifiedsearch/${encodeURIComponent(email)}`,
+        description: "Checks exposure in major historical public data breaches."
+      },
+      {
+        name: "DeHashed / BreachDirectory Search",
+        url: `https://www.google.com/search?q=site:dehashed.com OR site:leakcheck.io "${encodeURIComponent(email)}"`,
+        description: "Searches indexed database breach records."
+      },
+      {
+        name: "IntelX (Intelligence X Archive)",
+        url: `https://intelx.io/?s=${encodeURIComponent(email)}`,
+        description: "Searches darknet pastes, torrents, and document repositories for email mentions."
+      },
+      {
+        name: "Google Account ID & Profile Search",
+        url: `https://www.google.com/search?q="${encodeURIComponent(email)}"`,
+        description: "Google Dork to locate resume docs, university rosters, and PDF filings containing this email."
+      }
+    ],
+
+    googleDorks: [
+      `"${email}" filetype:pdf OR filetype:doc OR filetype:docx`,
+      `"${email}" site:pastebin.com OR site:gist.github.com`,
+      `"${email}" "password" OR "leak" OR "database" OR "dump"`,
+      `"${email}" site:linkedin.com OR site:twitter.com OR site:github.com`,
+      `site:${domainPart} "contact" OR "about"`
+    ]
+  };
+}
 
 /**
  * Generate Real Google Dorks for Legal, FIR, and Case Research
