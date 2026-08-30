@@ -27,14 +27,17 @@ import {
   Activity,
   CheckCircle2,
   XCircle,
-  HelpCircle
+  HelpCircle,
+  Radio,
+  Play,
+  Server
 } from 'lucide-react';
 import { soundService } from '../services/soundService';
 import { analyzePhoneNumber, generateCaseDorks } from '../services/osintToolsService';
 import { scanLiveUsername, scanLiveEmail, getDeviceFingerprint } from '../services/realOsintScanner';
 
 export default function OsintLab({ activeCase, onDiscoverClue }) {
-  const [subTab, setSubTab] = useState('email_recon'); // 'email_recon', 'username_recon', 'phone_recon', 'fingerprint_recon', 'case_dorks', 'case_intel'
+  const [subTab, setSubTab] = useState('email_recon'); // 'email_recon', 'username_recon', 'spiderfoot', 'fingerprint_recon', 'phone_recon', 'case_dorks', 'case_intel'
   
   // Real Phone OSINT State
   const [phoneInput, setPhoneInput] = useState('9820012345');
@@ -60,6 +63,7 @@ export default function OsintLab({ activeCase, onDiscoverClue }) {
   const [copiedText, setCopiedText] = useState('');
   const [terminalLogs, setTerminalLogs] = useState([
     "[OSINT-ENGINE] Initialized Live Multi-Vector Recon Suite v6.0",
+    "[SPIDERFOOT] Cloned in ./tools/spiderfoot (200+ Intelligence Modules)",
     "[STATUS] Programmatic Live APIs active: GitHub, Gravatar, Reddit, Dev.to, HackerNews",
     "[STATUS] Fingerprint.to Hardware Engine: Ready"
   ]);
@@ -188,11 +192,11 @@ export default function OsintLab({ activeCase, onDiscoverClue }) {
             <h2 className="text-sm font-bold font-display text-white flex items-center space-x-2">
               <span>Real-Time OSINT & Forensic Investigation Hub</span>
               <span className="text-[9px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800 font-mono">
-                LIVE APIs ACTIVE
+                LIVE & CLONED
               </span>
             </h2>
             <p className="text-[11px] text-noir-400">
-              Live programmatic recon across Email, Username accounts, Phone carriers, and Hardware Fingerprinting.
+              Live programmatic recon (Email, Username, Phone, Fingerprint.to, and SpiderFoot 200+ modules).
             </p>
           </div>
         </div>
@@ -202,6 +206,7 @@ export default function OsintLab({ activeCase, onDiscoverClue }) {
           {[
             { id: 'email_recon', label: '📧 Live Email Recon', icon: Mail },
             { id: 'username_recon', label: '👤 Live Username Recon', icon: UserCheck },
+            { id: 'spiderfoot', label: '🕷️ SpiderFoot OSINT', icon: Server },
             { id: 'fingerprint_recon', label: '🔬 Fingerprint.to', icon: Fingerprint },
             { id: 'phone_recon', label: '📱 Phone Recon', icon: Smartphone },
             { id: 'case_dorks', label: '⚖️ Legal Dorks', icon: FileText },
@@ -387,7 +392,7 @@ export default function OsintLab({ activeCase, onDiscoverClue }) {
             </div>
           )}
 
-          {/* TAB 2: LIVE PROGRAMMATIC USERNAME RECON (SHERLOCK / MAIGRET STYLE) */}
+          {/* TAB 2: LIVE USERNAME RECON */}
           {subTab === 'username_recon' && (
             <div className="flex-1 flex flex-col overflow-y-auto space-y-4 pr-1">
               
@@ -496,7 +501,88 @@ export default function OsintLab({ activeCase, onDiscoverClue }) {
             </div>
           )}
 
-          {/* TAB 3: REAL FORENSIC DEVICE FINGERPRINTING (FINGERPRINT.TO / FINGERPRINT.COM STYLE) */}
+          {/* TAB 3: SPIDERFOOT OSINT AUTOMATION HUB */}
+          {subTab === 'spiderfoot' && (
+            <div className="flex-1 flex flex-col overflow-y-auto space-y-4 pr-1">
+              
+              <div className="p-4 rounded-xl bg-gradient-to-r from-purple-950/60 to-noir-950 border border-purple-600/50 shadow-xl">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center space-x-2">
+                    <Server className="w-5 h-5 text-purple-400 animate-pulse" />
+                    <h3 className="text-sm font-bold text-white font-display">
+                      SpiderFoot Automated Reconnaissance Engine
+                    </h3>
+                  </div>
+                  <span className="text-[9px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800">
+                    CLONED & READY
+                  </span>
+                </div>
+                <p className="text-xs text-noir-300 leading-relaxed">
+                  SpiderFoot is cloned directly inside your workspace at <code className="text-amber-300">./tools/spiderfoot</code>. It integrates over <strong>200+ OSINT modules</strong> to automate queries for IP addresses, domain names, e-mail addresses, phone numbers, Bitcoin wallets, and names.
+                </p>
+              </div>
+
+              {/* SpiderFoot Quick Launch Guide */}
+              <div className="bg-noir-950/90 p-4 rounded-xl border border-noir-800 space-y-3">
+                <h4 className="text-xs font-bold text-purple-400 uppercase flex items-center space-x-2">
+                  <Play className="w-4 h-4 text-purple-400" />
+                  <span>How to Launch the Local SpiderFoot Web GUI</span>
+                </h4>
+
+                <p className="text-[11px] text-noir-300">
+                  Run these commands in your terminal to start the SpiderFoot web server:
+                </p>
+
+                <div className="bg-black/70 p-3 rounded-lg border border-white/5 space-y-1.5 text-xs text-amber-200">
+                  <div className="flex items-center justify-between">
+                    <code>cd tools/spiderfoot</code>
+                    <button onClick={() => handleCopy('cd tools/spiderfoot')} className="text-noir-500 hover:text-white">
+                      {copiedText === 'cd tools/spiderfoot' ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                    </button>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <code>pip install -r requirements.txt</code>
+                    <button onClick={() => handleCopy('pip install -r requirements.txt')} className="text-noir-500 hover:text-white">
+                      {copiedText === 'pip install -r requirements.txt' ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                    </button>
+                  </div>
+                  <div className="flex items-center justify-between text-emerald-400 font-bold">
+                    <code>python sf.py -l 127.0.0.1:5001</code>
+                    <button onClick={() => handleCopy('python sf.py -l 127.0.0.1:5001')} className="text-noir-500 hover:text-white">
+                      {copiedText === 'python sf.py -l 127.0.0.1:5001' ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="pt-2 flex justify-end">
+                  <a
+                    href="http://127.0.0.1:5001"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs flex items-center space-x-2 transition-all shadow-lg"
+                  >
+                    <span>Open SpiderFoot GUI (127.0.0.1:5001)</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+              </div>
+
+              {/* SpiderFoot Features & Capability Matrix */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
+                <div className="p-3 rounded-xl bg-noir-950 border border-noir-800">
+                  <span className="text-[10px] text-noir-400 uppercase block font-bold">Supported Targets</span>
+                  <p className="text-noir-200 mt-1">IP Addresses, Domain Names, Subnets, E-mail Addresses, Phone Numbers, Human Names, BTC/ETH Wallets.</p>
+                </div>
+                <div className="p-3 rounded-xl bg-noir-950 border border-noir-800">
+                  <span className="text-[10px] text-noir-400 uppercase block font-bold">200+ Integrated Modules</span>
+                  <p className="text-noir-200 mt-1">WHOIS, DNS records, Shodan, VirusTotal, ThreatMiner, AlienVault OTX, HaveIBeenPwned, S3 Buckets, DarkNet.</p>
+                </div>
+              </div>
+
+            </div>
+          )}
+
+          {/* TAB 4: REAL FORENSIC DEVICE FINGERPRINTING (FINGERPRINT.TO STYLE) */}
           {subTab === 'fingerprint_recon' && (
             <div className="flex-1 flex flex-col overflow-y-auto space-y-4 pr-1">
               
@@ -507,7 +593,7 @@ export default function OsintLab({ activeCase, onDiscoverClue }) {
                     <span>Real-Time Browser & Hardware Forensic Telemetry</span>
                   </h3>
                   <p className="text-[11px] text-noir-400">
-                    High-entropy forensic fingerprinting matching industry standards (FingerprintJS / fingerprint.com).
+                    High-entropy forensic fingerprinting matching industry standards (FingerprintJS / fingerprint.to).
                   </p>
                 </div>
 
@@ -603,7 +689,7 @@ export default function OsintLab({ activeCase, onDiscoverClue }) {
             </div>
           )}
 
-          {/* TAB 4: PHONE RECON (WITH 5 REVERSE NAME METHODS) */}
+          {/* TAB 5: PHONE RECON (WITH 5 REVERSE NAME METHODS) */}
           {subTab === 'phone_recon' && (
             <div className="flex-1 flex flex-col overflow-y-auto space-y-4 pr-1">
               
@@ -681,7 +767,7 @@ export default function OsintLab({ activeCase, onDiscoverClue }) {
             </div>
           )}
 
-          {/* TAB 5: LEGAL & POLICE FIR GOOGLE DORKS */}
+          {/* TAB 6: LEGAL & POLICE FIR GOOGLE DORKS */}
           {subTab === 'case_dorks' && (
             <div className="flex-1 flex flex-col overflow-y-auto space-y-3 pr-1">
               <div className="bg-noir-950/80 p-3 rounded-xl border border-noir-800 mb-1">
@@ -725,7 +811,7 @@ export default function OsintLab({ activeCase, onDiscoverClue }) {
             </div>
           )}
 
-          {/* TAB 6: CASE LOGS */}
+          {/* TAB 7: CASE LOGS */}
           {subTab === 'case_intel' && (
             <div className="flex-1 flex flex-col overflow-y-auto space-y-3 pr-1">
               {osint.socialLeaks.map(leak => (
@@ -766,7 +852,7 @@ export default function OsintLab({ activeCase, onDiscoverClue }) {
           </div>
 
           <div className="mt-3 p-2.5 rounded-xl bg-noir-900 border border-noir-800 text-[10px] text-noir-400 flex items-center justify-between">
-            <span>Engines: Sherlock • Gravatar • Fingerprint.to</span>
+            <span>Engines: SpiderFoot • Sherlock • Gravatar • Fingerprint.to</span>
             <span className="text-emerald-400">Active</span>
           </div>
         </div>
