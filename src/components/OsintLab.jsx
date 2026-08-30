@@ -40,16 +40,16 @@ export default function OsintLab({ activeCase, onDiscoverClue }) {
   const [subTab, setSubTab] = useState('email_recon'); // 'email_recon', 'username_recon', 'spiderfoot', 'fingerprint_recon', 'phone_recon', 'case_dorks', 'case_intel'
   
   // Real Phone OSINT State
-  const [phoneInput, setPhoneInput] = useState('9820012345');
-  const [phoneResult, setPhoneResult] = useState(() => analyzePhoneNumber('9820012345'));
+  const [phoneInput, setPhoneInput] = useState('');
+  const [phoneResult, setPhoneResult] = useState(null);
   
   // Real Email OSINT State
-  const [emailInput, setEmailInput] = useState('rakeshsoni28073@gmail.com');
+  const [emailInput, setEmailInput] = useState('');
   const [emailResult, setEmailResult] = useState(null);
   const [isScanningEmail, setIsScanningEmail] = useState(false);
 
   // Real Username OSINT State
-  const [usernameInput, setUsernameInput] = useState('rakeshsoniiii');
+  const [usernameInput, setUsernameInput] = useState('');
   const [usernameResults, setUsernameResults] = useState([]);
   const [isScanningUsername, setIsScanningUsername] = useState(false);
 
@@ -65,7 +65,7 @@ export default function OsintLab({ activeCase, onDiscoverClue }) {
     "[OSINT-ENGINE] Initialized Live Multi-Vector Recon Suite v6.0",
     "[SPIDERFOOT] Cloned in ./tools/spiderfoot (200+ Intelligence Modules)",
     "[STATUS] Programmatic Live APIs active: GitHub, Gravatar, Reddit, Dev.to, HackerNews",
-    "[STATUS] Fingerprint.to Hardware Engine: Ready"
+    "[STATUS] Enter Target Email, Username, or Phone (+91) to begin live recon."
   ]);
 
   const osint = activeCase?.osintData || { socialLeaks: [], geoTraces: [], forensics: [] };
@@ -73,7 +73,7 @@ export default function OsintLab({ activeCase, onDiscoverClue }) {
 
   // Initial Scan on Mount
   useEffect(() => {
-    handleRunEmailScan('rakeshsoni28073@gmail.com');
+    // Ready for user search
   }, []);
 
   const handleRunEmailScan = async (customEmail = null) => {

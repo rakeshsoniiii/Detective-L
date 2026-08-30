@@ -1,7 +1,8 @@
 // Groq API Service for Detective-L (L-System Interrogation & Case Analysis)
+// Powered by Llama-3.3-70B-Versatile on Groq Cloud
 
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
-const DEFAULT_MODEL = 'llama-3.3-70b-versatile'; // High speed, incredible reasoning & persona roleplay
+const DEFAULT_MODEL = 'llama-3.3-70b-versatile';
 
 // Retrieve API key from environment variable or localStorage
 export const getGroqApiKey = () => {
@@ -26,6 +27,10 @@ export async function interrogateSuspect({
   currentStress = 30
 }) {
   const apiKey = getGroqApiKey();
+
+  if (!apiKey) {
+    throw new Error('Groq API Key is not configured. Please add VITE_GROQ_API_KEY in your .env file or input it in settings to enable live AI interrogation.');
+  }
 
   // Create detailed system prompt for the suspect's persona
   const systemPrompt = `You are roleplaying as "${suspect.name}", a suspect in a high-stakes murder mystery case investigated by Detective-L (Rakesh Soni).
@@ -75,10 +80,6 @@ IMPORTANT: Return ONLY the JSON object, with no surrounding markdown or explanat
     }
   ];
 
-  if (!apiKey) {
-    return simulateSuspectReply(suspect, userQuestion, confrontedClue, currentStress);
-  }
-
   try {
     const response = await fetch(GROQ_API_URL, {
       method: 'POST',
@@ -96,7 +97,8 @@ IMPORTANT: Return ONLY the JSON object, with no surrounding markdown or explanat
     });
 
     if (!response.ok) {
-      return simulateSuspectReply(suspect, userQuestion, confrontedClue, currentStress);
+      const err = await response.json().catch(() => ({}));
+      throw new Error(err.error?.message || `Groq API Error: HTTP ${response.status}`);
     }
 
     const data = await response.json();
@@ -104,7 +106,7 @@ IMPORTANT: Return ONLY the JSON object, with no surrounding markdown or explanat
     const parsed = JSON.parse(rawContent);
 
     return {
-      dialogue: parsed.dialogue || "I have nothing further to say to that without my lawyer.",
+      dialogue: parsed.dialogue || "I have nothing further to say to that without my legal counsel.",
       stressDelta: parsed.stressDelta || 5,
       heartRateBpm: parsed.heartRateBpm || (75 + Math.floor(Math.random() * 20)),
       emotionalState: parsed.emotionalState || "Defensive",
@@ -113,7 +115,7 @@ IMPORTANT: Return ONLY the JSON object, with no surrounding markdown or explanat
     };
   } catch (error) {
     console.error('Groq Interrogation error:', error);
-    return simulateSuspectReply(suspect, userQuestion, confrontedClue, currentStress);
+    throw error;
   }
 }
 
@@ -123,6 +125,10 @@ IMPORTANT: Return ONLY the JSON object, with no surrounding markdown or explanat
 export async function consultDetectiveL({ caseData, clues, connections, currentQuestion }) {
   const apiKey = getGroqApiKey();
   
+  if (!apiKey) {
+    throw new Error('Groq API Key missing. Please provide a valid Groq API key.');
+  }
+
   const prompt = `You are L, the world's greatest consulting detective, assisting Detective Rakesh Soni on the case: "${caseData.title}".
 VICTIM: ${caseData.victim}
 LOCATION: ${caseData.location}
@@ -137,10 +143,6 @@ DETECTIVE'S QUESTION / THOUGHT:
 Provide sharp, razor-focused deductive reasoning, spot potential timeline contradictions among the 5 suspects, and suggest the exact next high-leverage investigative move or interrogation question.
 Keep your response concise, brilliant, and styled in L's calm, analytical, and eccentric tone. (Under 180 words).`;
 
-  if (!apiKey) {
-    return "Analyzing the evidence... The timeline between 22:30 and 23:15 presents a critical anomaly. Cross-reference the security logs with the forensic toxicology report. Someone is fabricating their whereabouts.";
-  }
-
   try {
     const response = await fetch(GROQ_API_URL, {
       method: 'POST',
@@ -151,191 +153,198 @@ Keep your response concise, brilliant, and styled in L's calm, analytical, and e
       body: JSON.stringify({
         model: DEFAULT_MODEL,
         messages: [
-          { role: 'system', content: "You are L, the world's master consulting detective created by Rakesh Soni. Be supremely logical, observant, and concise." },
+          { role: 'system', content: 'You are L, the world-renowned analytical detective with unmatched deductive prowess.' },
           { role: 'user', content: prompt }
         ],
         temperature: 0.5,
-        max_tokens: 350
+        max_tokens: 350,
       }),
     });
 
-    if (!response.ok) throw new Error('Groq failed');
+    if (!response.ok) {
+      const err = await response.json().catch(() => ({}));
+      throw new Error(err.error?.message || `Groq API Error: ${response.status}`);
+    }
+
     const data = await response.json();
-    return data.choices[0]?.message?.content || "No deductive conclusion reached yet.";
-  } catch (e) {
-    console.error('L Consultation Error:', e);
-    return "Based on the evidence board, the killer had physical access to the scene before the alert was triggered. Focus your interrogation on whoever had the keys.";
+    return data.choices[0]?.message?.content || "No deductive output received from neural model.";
+  } catch (error) {
+    console.error('Groq Copilot error:', error);
+    throw error;
   }
 }
 
 /**
- * Generate a brand new procedural cold case (Indian, International, or Custom Theme) with 5 suspects
+ * Evaluates an Accusation and Generates Legal Verdict
  */
-export async function generateProceduralCase(customTheme = "Real Indian Cold Case in Mumbai") {
+export async function evaluateAccusation({ caseData, accusedSuspect, murderWeapon, motive, finalStatement }) {
   const apiKey = getGroqApiKey();
-  
-  const systemPrompt = `You are a master investigative journalist and criminologist specializing in authentic murder mystery cases (including real Indian unsolved cases or international cold cases).
-Generate an intricate, high-stakes case with EXACTLY 5 SUSPECTS, rich clues, crime scene hotspots, and OSINT leads.
 
-THEME / USER PROMPT: ${customTheme}
+  const isCorrectKiller = accusedSuspect.isKiller;
+  const isCorrectWeapon = murderWeapon.toLowerCase().includes(caseData.murderWeapon.toLowerCase()) || 
+                          caseData.murderWeapon.toLowerCase().includes(murderWeapon.toLowerCase());
 
-Format your output STRICTLY as a JSON object matching this schema:
+  if (!apiKey) {
+    return {
+      isGuilty: isCorrectKiller && isCorrectWeapon,
+      grade: isCorrectKiller && isCorrectWeapon ? "S - Master Detective" : "F - Case Dismissed",
+      courtroomDrama: isCorrectKiller && isCorrectWeapon
+        ? `The defense collapses under the weight of the evidence. ${accusedSuspect.name} breaks down in the courtroom and makes a full confession to the murder of ${caseData.victim}.`
+        : `The court dismisses the charges due to insufficient or misdirected evidence. ${accusedSuspect.name} walks free.`,
+      breakdown: {
+        suspectAccused: accusedSuspect.name,
+        actualKiller: caseData.suspects.find(s => s.isKiller)?.name,
+        killerIdentified: isCorrectKiller,
+        weaponCorrect: isCorrectWeapon,
+        actualWeapon: caseData.murderWeapon,
+        actualMotive: caseData.actualMotive
+      }
+    };
+  }
+
+  const prompt = `Evaluate Detective Rakesh Soni's final court indictment for case: "${caseData.title}".
+- ACCUSED: ${accusedSuspect.name} (Actual Killer: ${isCorrectKiller ? 'YES' : 'NO, actual killer is ' + caseData.suspects.find(s => s.isKiller)?.name})
+- WEAPON PRESENTED: "${murderWeapon}" (Actual Murder Weapon: "${caseData.murderWeapon}")
+- MOTIVE ARGUED: "${motive}" (Actual Motive: "${caseData.actualMotive}")
+- FINAL PROSECUTION STATEMENT: "${finalStatement}"
+
+Output valid JSON:
 {
-  "id": "case-generated-${Date.now()}",
-  "title": "The Title of the Case",
-  "subtitle": "Short punchy subline",
-  "difficulty": "Master Sleuth",
-  "estimatedTime": "25 mins",
+  "isGuilty": boolean (true if correct suspect and weapon, false otherwise),
+  "grade": "one of: [S - Legendary Master Detective, A - Solid Conviction, B - Flawed Case, F - Case Dismissed / Wrongful Accusation]",
+  "courtroomDrama": "A dramatic 3-5 sentence cinematic courtroom climax describing the judge's reaction, the accused's reaction (confession if caught or smirk if acquitted), and the final sentence."
+}`;
+
+  try {
+    const response = await fetch(GROQ_API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: DEFAULT_MODEL,
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.6,
+        max_tokens: 500,
+        response_format: { type: "json_object" }
+      }),
+    });
+
+    if (!response.ok) throw new Error('Groq Accusation eval failed');
+
+    const data = await response.json();
+    const parsed = JSON.parse(data.choices[0]?.message?.content);
+
+    return {
+      isGuilty: parsed.isGuilty ?? (isCorrectKiller && isCorrectWeapon),
+      grade: parsed.grade || (isCorrectKiller && isCorrectWeapon ? "A" : "F"),
+      courtroomDrama: parsed.courtroomDrama,
+      breakdown: {
+        suspectAccused: accusedSuspect.name,
+        actualKiller: caseData.suspects.find(s => s.isKiller)?.name,
+        killerIdentified: isCorrectKiller,
+        weaponCorrect: isCorrectWeapon,
+        actualWeapon: caseData.murderWeapon,
+        actualMotive: caseData.actualMotive
+      }
+    };
+  } catch (e) {
+    console.error(e);
+    return {
+      isGuilty: isCorrectKiller && isCorrectWeapon,
+      grade: isCorrectKiller && isCorrectWeapon ? "A - Conviction" : "F - Acquitted",
+      courtroomDrama: isCorrectKiller && isCorrectWeapon 
+        ? `${accusedSuspect.name} breaks down and confesses in open court.` 
+        : `The prosecution failed to prove guilt beyond reasonable doubt.`,
+      breakdown: {
+        suspectAccused: accusedSuspect.name,
+        actualKiller: caseData.suspects.find(s => s.isKiller)?.name,
+        killerIdentified: isCorrectKiller,
+        weaponCorrect: isCorrectWeapon,
+        actualWeapon: caseData.murderWeapon,
+        actualMotive: caseData.actualMotive
+      }
+    };
+  }
+}
+
+/**
+ * Generate a complete playable Case from a custom User Prompt or Real FIR Text
+ */
+export async function generateCaseWithAI(userCaseIdea) {
+  const apiKey = getGroqApiKey();
+  if (!apiKey) {
+    throw new Error('Groq API Key is required to construct a new AI Case File.');
+  }
+
+  const prompt = `You are the lead case architect for the premier detective investigation suite "Detective-L".
+Generate a complex, realistic, high-stakes murder mystery case based on this user prompt / FIR / real news text:
+"${userCaseIdea}"
+
+REQUIREMENTS:
+1. Create exactly 5 distinct suspects with rich backgrounds, realistic alibis, hidden motives/secrets, and only ONE true killer (isKiller: true).
+2. Create 7-9 specific clues across categories: "physical", "forensic", "digital", "testimonial".
+3. Clues must include at least 1 weapon, 1 forensic autopsy/toxicology report, 1 digital CCTV/phone record, and multiple alibi contradictions.
+4. Provide a clear, logical murder timeline and exact killer identity that can be solved by connecting the clues.
+
+Output the entire case in valid JSON with this exact schema:
+{
+  "id": "custom-case-" + random string,
+  "title": "Compelling Noir Case Title",
+  "subtitle": "Short dramatic tagline",
+  "difficulty": "Hard (5 Suspects)",
+  "estimatedTime": "25-35 mins",
   "status": "UNSOLVED",
-  "victim": "Victim Full Name / Victims",
-  "victimRole": "Their status/profession",
-  "timeOfDeath": "e.g. November 14 - 02:30 IST",
-  "location": "Specific location and city",
-  "overview": "Rich 3-sentence narrative backdrop",
-  "crimeDetails": "Specific forensic cause of death and scene state",
-  "culpritId": "suspect-1 (must match one of the 5 suspects below)",
-  "murderWeapon": "Specific weapon or mechanism",
-  "actualMotive": "The true concealed motive",
-  "keyContradiction": "The exact contradiction that breaks the killer's alibi",
+  "victim": "Full Name of Victim",
+  "victimRole": "Their Occupation / Social Role",
+  "timeOfDeath": "Exact date and time window",
+  "location": "Detailed crime scene address / room",
+  "overview": "2-3 paragraphs of gripping case background and circumstance.",
+  "crimeDetails": "Specific mechanism of death, weapon marks, forensic details.",
+  "murderWeapon": "Exact weapon used",
+  "actualMotive": "The true reason why the killer committed the crime",
+  "keyContradiction": "The crucial logical flaw in the killer's alibi that proves their guilt",
   "suspects": [
     {
       "id": "suspect-1",
       "name": "Full Name",
-      "role": "Relationship to victim/crime",
-      "age": 38,
-      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80",
-      "personality": "Personality traits",
-      "voiceTone": "How they talk",
-      "publicAlibi": "Their stated alibi",
-      "hiddenSecret": "Their secret",
-      "isKiller": true,
-      "vulnerabilities": "What evidence cracks them"
-    },
-    {
-      "id": "suspect-2",
-      "name": "Full Name",
       "role": "Relationship to victim",
-      "age": 42,
+      "age": 35,
       "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
-      "personality": "Personality traits",
-      "voiceTone": "How they talk",
-      "publicAlibi": "Their stated alibi",
-      "hiddenSecret": "Their secret",
-      "isKiller": false,
-      "vulnerabilities": "What evidence cracks them"
-    },
-    {
-      "id": "suspect-3",
-      "name": "Full Name",
-      "role": "Relationship to victim",
-      "age": 29,
-      "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80",
-      "personality": "Personality traits",
-      "voiceTone": "How they talk",
-      "publicAlibi": "Their stated alibi",
-      "hiddenSecret": "Their secret",
-      "isKiller": false,
-      "vulnerabilities": "What evidence cracks them"
-    },
-    {
-      "id": "suspect-4",
-      "name": "Full Name",
-      "role": "Relationship to victim",
-      "age": 51,
-      "avatar": "https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=400&q=80",
-      "personality": "Personality traits",
-      "voiceTone": "How they talk",
-      "publicAlibi": "Their stated alibi",
-      "hiddenSecret": "Their secret",
-      "isKiller": false,
-      "vulnerabilities": "What evidence cracks them"
-    },
-    {
-      "id": "suspect-5",
-      "name": "Full Name",
-      "role": "Relationship to victim",
-      "age": 34,
-      "avatar": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80",
-      "personality": "Personality traits",
-      "voiceTone": "How they talk",
-      "publicAlibi": "Their stated alibi",
-      "hiddenSecret": "Their secret",
-      "isKiller": false,
-      "vulnerabilities": "What evidence cracks them"
+      "personality": "Psychological traits",
+      "voiceTone": "How they speak under interrogation",
+      "publicAlibi": "Where they claim they were",
+      "hiddenSecret": "Secret/scandal they are hiding",
+      "isKiller": boolean,
+      "vulnerabilities": "Evidence that makes them crack"
     }
+    // EXACTLY 5 SUSPECTS TOTAL
   ],
   "clues": [
     {
       "id": "clue-1",
-      "title": "Clue Name",
-      "category": "physical",
-      "description": "Detailed clue text",
-      "significance": "Why it matters",
+      "title": "Clue Title",
+      "category": "physical" | "forensic" | "digital" | "testimonial",
+      "description": "Thorough description of the clue and where it was found",
+      "significance": "Why this clue matters to the investigation",
+      "nodeType": "evidence",
       "discovered": true,
-      "x": 420,
-      "y: 180
-    },
-    {
-      "id": "clue-2",
-      "title": "Clue Name 2",
-      "category": "forensic",
-      "description": "Detailed clue text",
-      "significance": "Why it matters",
-      "discovered": true,
-      "x": 650,
-      "y": 280
-    },
-    {
-      "id": "clue-3",
-      "title": "Clue Name 3",
-      "category": "digital",
-      "description": "Detailed clue text",
-      "significance": "Why it matters",
-      "discovered": false,
-      "x": 220,
-      "y": 480
+      "x": 300,
+      "y": 200
     }
   ],
   "defaultConnections": [
-    { "id": "conn-gen-1", "from": "suspect-1", "to": "clue-1", "label": "Key Link" }
-  ],
-  "osintData": {
-    "socialLeaks": [
-      {
-        "id": "osint-g-1",
-        "target": "Target Name",
-        "platform": "DarkNet / Police FIR",
-        "timestamp": "Time",
-        "snippet": "Snippet text",
-        "threatLevel": "High",
-        "notes": "Analyst notes"
-      }
-    ],
-    "geoTraces": [],
-    "forensics": []
-  },
-  "crimeScene": {
-    "backgroundImage": "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1600&q=80",
-    "description": "Crime scene environment description",
-    "hotspots": [
-      {
-        "id": "hotspot-1",
-        "name": "Key Scene Hotspot",
-        "x": 50,
-        "y": 50,
-        "radius": 30,
-        "clueId": "clue-1",
-        "discoveredText": "What is found here"
-      }
-    ]
-  }
+    {
+      "from": "clue-1",
+      "to": "suspect-1",
+      "label": "Direct Link",
+      "confidence": 75
+    }
+  ]
 }
 
-Return ONLY the raw JSON object.`;
-
-  if (!apiKey) {
-    throw new Error("Groq API Key is required to generate custom AI cases.");
-  }
+Return ONLY valid JSON.`;
 
   const response = await fetch(GROQ_API_URL, {
     method: 'POST',
@@ -345,15 +354,15 @@ Return ONLY the raw JSON object.`;
     },
     body: JSON.stringify({
       model: DEFAULT_MODEL,
-      messages: [{ role: 'user', content: systemPrompt }],
-      temperature: 0.8,
+      messages: [{ role: 'user', content: prompt }],
+      temperature: 0.7,
       max_tokens: 2800,
       response_format: { type: "json_object" }
     }),
   });
 
   if (!response.ok) {
-    throw new Error('Groq AI Case Generation failed. Please check your API key.');
+    throw new Error('Groq AI Case Generation failed. Please verify your API key and connection.');
   }
 
   const data = await response.json();
@@ -361,27 +370,4 @@ Return ONLY the raw JSON object.`;
   return parsed;
 }
 
-// Fallback simulator for offline/mock mode
-function simulateSuspectReply(suspect, question, clue, currentStress) {
-  const isPressured = !!clue || currentStress > 60;
-  
-  if (isPressured) {
-    return {
-      dialogue: `Wait... where did you get that evidence?! That's completely taken out of context! I didn't kill anyone, I swear!`,
-      stressDelta: 18,
-      heartRateBpm: Math.min(150, 95 + Math.floor(Math.random() * 30)),
-      emotionalState: "Panicked",
-      suspicionRating: suspect.isKiller ? 88 : 55,
-      telltaleSign: "Swallows hard, hands visibly shaking"
-    };
-  }
-
-  return {
-    dialogue: `I've already told your officers everything I know. ${suspect.publicAlibi}. You're wasting time interrogating me.`,
-    stressDelta: 4,
-    heartRateBpm: 78 + Math.floor(Math.random() * 10),
-    emotionalState: "Defensive",
-    suspicionRating: 35,
-    telltaleSign: "Crosses arms and leans back"
-  };
-}
+export const generateProceduralCase = generateCaseWithAI;
