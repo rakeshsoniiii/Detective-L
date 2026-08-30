@@ -11,7 +11,8 @@ import {
   VolumeX, 
   Key, 
   Sparkles, 
-  FolderOpen 
+  FolderOpen,
+  BrainCircuit
 } from 'lucide-react';
 import { soundService } from '../services/soundService';
 
@@ -28,12 +29,13 @@ export default function Navbar({
   solvedCount
 }) {
   const tabs = [
+    { id: 'advisor', label: 'AI Director', icon: BrainCircuit, badge: 'Insights' },
     { id: 'pinboard', label: 'Connect Dots', icon: Network, badge: null },
-    { id: 'interrogate', label: 'Interrogation', icon: Users, badge: `${activeCase.suspects.length} Suspects` },
+    { id: 'interrogate', label: 'Interrogation', icon: Users, badge: `${activeCase?.suspects?.length || 5} Suspects` },
     { id: 'crimescene', label: 'Crime Scene', icon: Camera, badge: null },
-    { id: 'osint', label: 'OSINT Lab', icon: Search, badge: 'Cyber' },
-    { id: 'evidence', label: 'Dossier & Clues', icon: FileText, badge: `${activeCase.clues.filter(c => c.discovered).length}/${activeCase.clues.length}` },
-    { id: 'verdict', label: 'Accusation', icon: Gavel, badge: 'Final' },
+    { id: 'osint', label: 'OSINT Lab', icon: Search, badge: 'Live 🇮🇳' },
+    { id: 'evidence', label: 'Dossier', icon: FileText, badge: `${activeCase?.clues?.filter(c => c.discovered).length || 0}/${activeCase?.clues?.length || 0}` },
+    { id: 'verdict', label: 'Accusation', icon: Gavel, badge: 'Court' },
   ];
 
   const handleTabChange = (tabId) => {
@@ -71,11 +73,11 @@ export default function Navbar({
                   DETECTIVE<span className="text-blood-500">-L</span>
                 </span>
                 <span className="text-[10px] uppercase font-mono tracking-widest px-2 py-0.5 rounded bg-blood-950/80 text-blood-400 border border-blood-800/60">
-                  Special Unit
+                  REAL FORENSICS
                 </span>
               </div>
               <p className="text-[11px] font-mono text-noir-400">
-                Created by <span className="text-amber-400 font-semibold">Rakesh Soni</span> • Groq AI Powered
+                Created by <span className="text-amber-400 font-semibold">Rakesh Soni</span> • Groq AI Case Engine
               </p>
             </div>
           </div>
@@ -89,7 +91,7 @@ export default function Navbar({
                 <button
                   key={tab.id}
                   onClick={() => handleTabChange(tab.id)}
-                  className={`flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-xs font-mono font-medium transition-all duration-200 ${
+                  className={`flex items-center space-x-2 px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all duration-200 ${
                     isActive
                       ? 'bg-gradient-to-r from-blood-600 to-blood-700 text-white shadow-neon-red'
                       : 'text-noir-300 hover:text-white hover:bg-noir-800/60'
@@ -117,16 +119,16 @@ export default function Navbar({
             {/* Case Selector Dropdown */}
             <div className="relative flex items-center">
               <select
-                value={activeCase.id}
+                value={activeCase?.id}
                 onChange={(e) => {
                   soundService.playTypewriter();
                   setActiveCaseId(e.target.value);
                 }}
-                className="bg-noir-900 text-xs font-mono text-amber-400 border border-noir-700 rounded-lg px-2.5 py-1.5 pr-7 focus:outline-none focus:border-amber-500 appearance-none cursor-pointer"
+                className="bg-noir-900 text-xs font-mono text-amber-400 border border-noir-700 rounded-lg px-2.5 py-1.5 pr-7 focus:outline-none focus:border-amber-500 appearance-none cursor-pointer max-w-[200px] truncate"
               >
                 {cases.map((c) => (
                   <option key={c.id} value={c.id}>
-                    {c.title.length > 25 ? c.title.substring(0, 23) + '...' : c.title}
+                    {c.title}
                   </option>
                 ))}
               </select>
@@ -139,11 +141,11 @@ export default function Navbar({
                 soundService.playTypewriter();
                 onOpenCaseGenerator();
               }}
-              title="Generate New Case with Groq AI"
+              title="Start New Real Case or Import FIR"
               className="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg bg-cyber-cyan/10 text-cyber-cyan border border-cyber-cyan/30 hover:bg-cyber-cyan/20 text-xs font-mono transition-all"
             >
               <Sparkles className="w-3.5 h-3.5 text-cyber-cyan animate-spin-slow" />
-              <span className="hidden lg:inline">AI Mystery</span>
+              <span className="hidden lg:inline">New Case / FIR</span>
             </button>
 
             {/* API Key Modal Button */}

@@ -8,19 +8,20 @@ import EvidenceLocker from './components/EvidenceLocker';
 import AccusationChamber from './components/AccusationChamber';
 import CaseGeneratorModal from './components/CaseGeneratorModal';
 import ApiKeyModal from './components/ApiKeyModal';
+import CaseAdvisor from './components/CaseAdvisor';
 import { INITIAL_CASES } from './data/cases';
 
 export default function App() {
   const [cases, setCases] = useState(() => {
-    const saved = localStorage.getItem('detective_l_cases');
+    const saved = localStorage.getItem('detective_l_cases_v2');
     return saved ? JSON.parse(saved) : INITIAL_CASES;
   });
 
   const [activeCaseId, setActiveCaseId] = useState(() => {
-    return cases[0]?.id || 'case-penthouse-poisoning';
+    return cases[0]?.id || 'case-stoneman-kolkata';
   });
 
-  const [currentTab, setCurrentTab] = useState('pinboard');
+  const [currentTab, setCurrentTab] = useState('advisor');
   const [isAudioMuted, setIsAudioMuted] = useState(false);
   const [isCaseGenModalOpen, setIsCaseGenModalOpen] = useState(false);
   const [isApiKeyModalOpen, setIsApiKeyModalOpen] = useState(false);
@@ -30,7 +31,7 @@ export default function App() {
 
   // Save cases to localStorage
   useEffect(() => {
-    localStorage.setItem('detective_l_cases', JSON.stringify(cases));
+    localStorage.setItem('detective_l_cases_v2', JSON.stringify(cases));
   }, [cases]);
 
   // Discover a Clue
@@ -48,12 +49,11 @@ export default function App() {
 
   // Handle Deduction Breakthrough
   const handleSolveDeduction = (deductionType) => {
-    // Automatically discover related clues if not discovered yet
     if (deductionType === 'toxin_delivery') {
-      handleDiscoverClue('clue-ice-sphere-mold');
+      handleDiscoverClue('clue-vermilion-cloth');
     }
     if (deductionType === 'alibi_shattered') {
-      handleDiscoverClue('clue-freezer-log');
+      handleDiscoverClue('clue-sealdah-patrol-log');
     }
   };
 
@@ -69,7 +69,7 @@ export default function App() {
   const handleCaseCreated = (newCase) => {
     setCases(prev => [newCase, ...prev]);
     setActiveCaseId(newCase.id);
-    setCurrentTab('pinboard');
+    setCurrentTab('advisor');
   };
 
   return (
@@ -91,6 +91,13 @@ export default function App() {
 
       {/* Main Tab Viewports */}
       <main className="flex-1 relative overflow-hidden">
+        {currentTab === 'advisor' && (
+          <CaseAdvisor
+            activeCase={activeCase}
+            onOpenCaseGenerator={() => setIsCaseGenModalOpen(true)}
+          />
+        )}
+
         {currentTab === 'pinboard' && (
           <Pinboard
             activeCase={activeCase}

@@ -1,40 +1,38 @@
-// Detective-L Master Case Database
-// Created by Rakesh Soni - Featuring Real-World Indian & Global Unsolved Cases
+// Detective-L Curated Real-World Case Files & Blank Case Workspace
+// Created by Rakesh Soni - Dedicated to Real Criminal Investigation & Cold Case Forensics
 
 export const INITIAL_CASES = [
-  // 🇮🇳 REAL-WORLD INDIAN UNSOLVED COLD CASE
+  // 1. 🇮🇳 REAL INDIAN COLD CASE: The Stoneman Murders (Kolkata, 1989)
   {
     id: "case-stoneman-kolkata",
-    title: "The Stoneman Murders: Kolkata 1989",
-    subtitle: "India's Most Haunting Unsolved Serial Mystery",
-    difficulty: "Master Sleuth (Real Cold Case)",
-    estimatedTime: "25-35 mins",
+    title: "The Stoneman Murders (Kolkata 1989)",
+    subtitle: "India's Most Notorious Unsolved Serial Pavement Murders",
+    difficulty: "Real Cold Case (Historical)",
+    estimatedTime: "Active Investigation",
     status: "UNSOLVED (REAL COLD CASE)",
-    victim: "13 Pavement Dwellers across Central Kolkata",
-    victimRole: "Homeless & Pavement Laborers in Howrah & Sealdah",
-    timeOfDeath: "June - September 1989 (Between 01:00 and 04:00 IST)",
-    location: "Dimly-lit pavements around Howrah Station, Sealdah, and Central Avenue, Kolkata",
-    overview: "Over six months in 1989, 13 homeless pavement dwellers in Kolkata were crushed to death in their sleep with a single massive stone or concrete slab (weighing up to 30 kg). The killer operated silently under heavy monsoon rain during the 01:00 to 04:00 window. Despite massive police mobilizations and night curfews, the 'Stoneman' was never officially caught, leaving behind India's greatest forensic mystery.",
-    crimeDetails: "Craniocerebral destruction caused by blunt force impact of a 30kg basalt/concrete slab dropped directly onto sleeping victims. No defensive wounds. No robbery motive. Murders ceased suddenly after police set up 24/7 armed night patrols in Sealdah.",
-    culpritId: "suspect-tantrik", // Occultist ritual theory
-    murderWeapon: "30kg Unworked Basalt Pavement Slab",
-    actualMotive: "A disturbed occult practitioner believed ritualistic sacrifice under the monsoon dark moon would bestow supernatural immortality.",
-    keyContradiction: "Bikram claimed he never left the Kalighat cremation grounds during the July 14 full moon, but night patrol logbooks at Sealdah rail siding record a man matching his exact description fleeing towards the tram depot at 02:45 IST.",
-    
-    // 5 REAL INVESTIGATIVE THEORIES & SUSPECTS
+    victim: "13 Pavement Dwellers across Howrah & Central Kolkata",
+    victimRole: "Homeless Night Laborers & Pavement Dwellers",
+    timeOfDeath: "June - September 1989 (01:00 - 04:00 IST)",
+    location: "Central Avenue, Sealdah Station Siding & Howrah, Kolkata",
+    overview: "Between June and September 1989, 13 homeless pavement dwellers in Kolkata were bludgeoned in their sleep with heavy stone slabs (up to 30 kg). The killer struck only during pitch-dark, monsoon-rain nights in unlit alleys. No valuables were stolen, no eyewitnesses came forward, and the murders ceased abruptly when armed police night patrols were deployed.",
+    crimeDetails: "Craniocerebral blunt force trauma caused by dropped 30kg basalt/concrete stone slab. No defensive wounds. Victims asleep at time of impact.",
+    culpritId: "suspect-tantrik",
+    murderWeapon: "30kg Basalt Pavement Slab",
+    actualMotive: "Suspected ritualistic occult sacrifices conducted along the railway tracks during monsoon new moon cycles.",
+    keyContradiction: "The occult practitioner Bikram Shastri claimed he was at Kalighat Ghat all night, but Lalbazar police night records place a tall saffron-clad suspect fleeing Sealdah Rail Gate #3 at 02:45 IST.",
     suspects: [
       {
         id: "suspect-tantrik",
         name: "Bikram 'Kapalik' Shastri",
-        role: "Rogue Aghori / Occult Practitioner",
+        role: "Rogue Aghori & Occult Practitioner",
         age: 46,
         avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80",
-        personality: "Fanatical, speaks in cryptic Sanskrit verses, unyielding gaze, displays no fear of law.",
+        personality: "Fanatical, unyielding, speaks in cryptic verses, indifferent to legal authority.",
         voiceTone: "Deep, gravelly, low whisper, laughs at worldly justice.",
-        publicAlibi: "I was meditating at the Kalighat Ghat continuously from dusk till dawn during all monsoon nights.",
-        hiddenSecret: "He conducted midnight sacrificial rites along the railway tracks, believing the blood of sleeping innocents empowered his rituals.",
+        publicAlibi: "I was meditating at Kalighat Ghat continuously from dusk till dawn during all monsoon nights.",
+        hiddenSecret: "He conducted midnight rites along the railway tracks, believing blood sacrifices yielded supernatural powers.",
         isKiller: true,
-        vulnerabilities: "Sealdah rail siding police log, vermilion and mustard oil stains found on his discarded saffron cloth near the 4th crime scene."
+        vulnerabilities: "Sealdah rail siding police log, vermilion powder and mustard oil traces found near the 4th crime scene."
       },
       {
         id: "suspect-lambu-rafiq",
@@ -42,25 +40,25 @@ export const INITIAL_CASES = [
         role: "Sealdah Railway Goods Siding Strongman",
         age: 38,
         avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80",
-        personality: "Aggressive, physically intimidating (6ft 4in), muscle for local extortion gangs.",
-        voiceTone: "Loud, abusive Hindi/Bengali street dialect, highly irritable.",
-        publicAlibi: "I was sleeping in the railway godown with my cargo loaders every night.",
-        hiddenSecret: "He used heavy stones to intimidate squatter families who refused to pay protection hafta, but claims he never killed in cold blood.",
+        personality: "Aggressive, physically intimidating (6ft 4in), enforcement muscle for local extortion racket.",
+        voiceTone: "Loud, street dialect, highly irritable when pressed by police.",
+        publicAlibi: "I was sleeping in the railway godown with cargo loaders every night.",
+        hiddenSecret: "He extorted weekly hafta from pavement squatters and threatened non-payers with heavy stones.",
         isKiller: false,
-        vulnerabilities: "Extortion ledger found in godown, witness who saw him threatening pavement vendors on Rabindra Sarani."
+        vulnerabilities: "Extortion ledger found in godown, witnesses on Rabindra Sarani."
       },
       {
         id: "suspect-si-samar",
         name: "Sub-Inspector Samar Ghosh",
-        role: "Lalbazar Police Detective Department Officer",
+        role: "Lalbazar Police Mobile Patrol Commander",
         age: 44,
         avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80",
-        personality: "Exhausted, cynical, under immense political pressure from Kolkata police headquarters.",
-        voiceTone: "Weary, authoritarian, defensive of the police's failed night operations.",
-        publicAlibi: "I was commanding the mobile patrol van #7 along Mahatma Gandhi Road from midnight to 05:00.",
-        hiddenSecret: "His patrol van neglected the Sealdah sector between 02:00 and 03:30 because the officers were sleeping in an illicit tavern.",
+        personality: "Exhausted, cynical, defensive under intense pressure from Kolkata Police HQ.",
+        voiceTone: "Authoritarian, weary, defensive of police response delays.",
+        publicAlibi: "I was commanding mobile patrol van #7 along MG Road continuously from midnight to 05:00.",
+        hiddenSecret: "His patrol van abandoned their sector between 02:00 and 03:30 because the officers fell asleep inside an illicit tavern.",
         isKiller: false,
-        vulnerabilities: "Patrol logbook discrepancies, unsigned duty transfer registers."
+        vulnerabilities: "Patrol logbook gaps, unsigned duty transfer registers."
       },
       {
         id: "suspect-dr-aniruddha",
@@ -68,36 +66,34 @@ export const INITIAL_CASES = [
         role: "State Mental Hospital Chief Psychiatrist",
         age: 52,
         avatar: "https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=400&q=80",
-        personality: "Coldly analytical, academic, fascinated by criminal psychopathology.",
-        voiceTone: "Scholarly, refined, speaks slowly, views the serial killer as an 'intellectual specimen'.",
-        publicAlibi: "I was at the Calcutta Medical Club library writing my monograph on urban psychosis.",
-        hiddenSecret: "An escaped violent patient under his care vanished in May 1989, and Dr. Sen hid the escape to protect his hospital's reputation.",
+        personality: "Academic, detached, fascinated by criminal psychopathology.",
+        voiceTone: "Scholarly, precise, views the serial attacks as a psychiatric case study.",
+        publicAlibi: "I was at the Medical Club library reviewing psychiatric monographs.",
+        hiddenSecret: "An escaped violent patient under his care vanished in May 1989; Dr. Sen covered up the escape to protect hospital funding.",
         isKiller: false,
-        vulnerabilities: "Unreported patient escape log from Ward 4, confidential state asylum audit records."
+        vulnerabilities: "Ward 4 unreported patient escape records, confidential state asylum audit files."
       },
       {
         id: "suspect-gopal",
         name: "Gopal Das",
-        role: "Night Pavement Tea Stall Owner & Eyewitness",
+        role: "Night Pavement Tea Vendor & Eyewitness",
         age: 35,
         avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80",
         personality: "Nervous, superstitious, constantly looking over his shoulder.",
         voiceTone: "Trembling, fast-talking, terrified of police interrogations.",
         publicAlibi: "I closed my tea cart at 01:30 and slept beneath the Howrah bridge approach.",
-        hiddenSecret: "He saw the killer carrying a heavy slab near Central Avenue but took a Rs. 500 bribe from the killer to stay silent.",
+        hiddenSecret: "He saw a figure carrying a heavy stone near Central Avenue and accepted Rs. 500 hush money to stay silent.",
         isKiller: false,
-        vulnerabilities: "Hidden stash of old 1980s currency notes under his tea stove, inconsistent statements given to Lalbazar detectives."
+        vulnerabilities: "Hidden cache of 1980s currency under his stove, contradictory witness statements."
       }
     ],
-
-    // HISTORICAL FORENSIC CLUES & EVIDENCE
     clues: [
       {
         id: "clue-basalt-slab",
         title: "30kg Basalt Pavement Slab",
         category: "physical",
-        description: "A rectangular building slab (30kg) salvaged from a nearby tramway construction pit. Traces of vermilion powder, mustard oil, and victim blood.",
-        significance: "The murder weapon. Requires exceptional upper-body strength. Vermilion traces suggest ritualistic preparation.",
+        description: "A rectangular building slab (30kg) salvaged from a tramway construction pit. Traces of vermilion powder, mustard oil, and blood type B+.",
+        significance: "The murder weapon. Requires exceptional strength. Vermilion traces indicate ritualistic preparation.",
         nodeType: "evidence",
         discovered: true,
         x: 420,
@@ -107,7 +103,7 @@ export const INITIAL_CASES = [
         id: "clue-sealdah-patrol-log",
         title: "Sealdah Rail Siding Police Night Log",
         category: "forensic",
-        description: "Constable logbook from July 14, 1989: '02:45 IST - Tall bearded man in saffron-draped cloth observed fleeing through railway gate #3 following screams.'",
+        description: "Constable logbook from July 14, 1989: '02:45 IST - Tall bearded man in saffron cloth observed fleeing through railway gate #3 following screams.'",
         significance: "Direct eyewitness timeline shatters Bikram Shastri's Kalighat alibi.",
         nodeType: "evidence",
         discovered: true,
@@ -118,8 +114,8 @@ export const INITIAL_CASES = [
         id: "clue-monsoon-timeline",
         title: "Kolkata Police Lalbazar Dossier #89-KOL",
         category: "forensic",
-        description: "All 13 attacks occurred during pitch-dark, rain-swept nights between 01:00 and 04:00 on isolated pavement stretches with zero lighting.",
-        significance: "Proves killer had intimate local knowledge of Kolkata's unlit blind spots.",
+        description: "All 13 attacks occurred during pitch-dark, rain-swept nights between 01:00 and 04:00 on isolated pavement stretches with zero street lighting.",
+        significance: "Proves the killer had intimate knowledge of local blind spots and night patrol rotations.",
         nodeType: "evidence",
         discovered: true,
         x: 180,
@@ -129,31 +125,18 @@ export const INITIAL_CASES = [
         id: "clue-vermilion-cloth",
         title: "Bloodied Saffron Cloth near Tram Depot",
         category: "physical",
-        description: "Discarded torn cotton cloth found behind the Central Avenue tram shed. Stained with river silt, mustard oil, and human blood type B+.",
+        description: "Discarded torn cotton cloth found behind the Central Avenue tram shed. Stained with river silt, mustard oil, and human blood.",
         significance: "Direct physical link to the occult practitioner.",
         nodeType: "evidence",
         discovered: false,
         x: 240,
         y: 480
-      },
-      {
-        id: "clue-escaped-patient-file",
-        title: "State Mental Hospital Ward 4 Escaped File",
-        category: "digital",
-        description: "Hospital incident report hidden by Dr. Sen: Patient 'Shambu' escaped on May 22, 1989. However, autopsy confirms Shambu died in a rail accident on June 1.",
-        significance: "Clears Dr. Sen's escaped patient theory.",
-        nodeType: "evidence",
-        discovered: false,
-        x: 720,
-        y: 480
       }
     ],
-
     defaultConnections: [
-      { id: "conn-stoneman-1", from: "suspect-tantrik", to: "clue-basalt-slab", label: "Ritual Vermilion Match" },
-      { id: "conn-stoneman-2", from: "suspect-si-samar", to: "clue-sealdah-patrol-log", label: "Duty Log Record" }
+      { id: "conn-sm-1", from: "suspect-tantrik", to: "clue-basalt-slab", label: "Ritual Vermilion Match" },
+      { id: "conn-sm-2", from: "suspect-si-samar", to: "clue-sealdah-patrol-log", label: "Duty Log Record" }
     ],
-
     osintData: {
       socialLeaks: [
         {
@@ -161,7 +144,7 @@ export const INITIAL_CASES = [
           target: "Lalbazar Crime Branch Archives (Kolkata Police)",
           platform: "State Police Gazette & Court Records (Kolkata)",
           timestamp: "1989-08-15 03:00 IST",
-          snippet: "Confidential circular: 'Armed night vigil teams of 500 personnel deployed. Suspect is physically robust, works alone, operates along Sealdah-Howrah axis.'",
+          snippet: "Confidential circular: 'Armed night vigil teams deployed. Suspect is physically robust, works alone, operates along Sealdah-Howrah axis.'",
           threatLevel: "High",
           notes: "Official historical bulletin."
         }
@@ -188,7 +171,6 @@ export const INITIAL_CASES = [
         }
       ]
     },
-
     crimeScene: {
       backgroundImage: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1600&q=80",
       description: "Rain-swept Central Avenue tramway siding in 1989 Kolkata. Dim amber streetlamps reflecting off wet cobblestones, abandoned tram tracks, dark brick alleys.",
@@ -201,38 +183,164 @@ export const INITIAL_CASES = [
           radius: 35,
           clueId: "clue-basalt-slab",
           discoveredText: "Beneath the canvas awning lies the heavy 30kg basalt slab covered in vermilion powder and bloodstains."
-        },
-        {
-          id: "hotspot-tram-shed",
-          name: "Central Tram Depot Shed",
-          x: 75,
-          y: 45,
-          radius: 30,
-          clueId: "clue-vermilion-cloth",
-          discoveredText: "Behind the rusted iron tram carriage rests a torn saffron cloth smelling strongly of mustard oil and river silt."
         }
       ]
     }
   },
 
-  // 🌐 REAL-WORLD INTERNATIONAL UNSOLVED COLD CASE
+  // 2. 🇮🇳 REAL INDIAN COLD CASE: The 2008 Noida Double Murder Case
+  {
+    id: "case-noida-2008",
+    title: "The Noida Double Murder Mystery (2008)",
+    subtitle: "India's Most Controverted Forensic & Investigative Case",
+    difficulty: "Real Cold Case (Forensics Intensive)",
+    estimatedTime: "Active Investigation",
+    status: "UNSOLVED (ACQUITTED ON APPEAL)",
+    victim: "14-Year-Old Girl & Domestic Assistant (Hemraj)",
+    victimRole: "High School Student & Resident Domestic Worker",
+    timeOfDeath: "May 15-16, 2008 (Between 00:00 and 02:00 IST)",
+    location: "Flat L-32, Jalvayu Vihar, Sector 25, Noida, Uttar Pradesh",
+    overview: "On May 16, 2008, a 14-year-old girl was found dead in her bedroom with her throat slit with surgical precision. Initially, missing domestic worker Hemraj was named prime suspect, until his decomposed body was discovered on the locked terrace of the same apartment a day later. The case saw multiple agencies, conflicting CBI charge sheets, botched crime scene preservation, touch DNA disputes, and eventual high court acquittals.",
+    crimeDetails: "Both victims suffered blunt force injuries to the head (golf club/heavy instrument) followed by carotid artery severing with a fine surgical blade (scalpel). No signs of forced entry on the main middle-mesh door.",
+    culpritId: "suspect-compounder-krishna",
+    murderWeapon: "Dental Scalpel & Golf Club No. 5",
+    actualMotive: "Violent confrontation following an unauthorized gathering in Hemraj's room involving domestic workers from neighboring flats.",
+    keyContradiction: "Krishna claimed he was in his ancestral village on the night of May 15, but mobile tower CDR logs from Sector 25 Noida showed his phone actively receiving calls from Hemraj's room at 23:45 IST.",
+    suspects: [
+      {
+        id: "suspect-compounder-krishna",
+        name: "Krishna Thadarai",
+        role: "Dental Clinic Compounder & Associate",
+        age: 28,
+        avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80",
+        personality: "Guarded, evasive during narco-analysis interviews, harborer of workplace resentment.",
+        voiceTone: "Low, defensive, frequently alters timeline details.",
+        publicAlibi: "I was at my home in Moradabad throughout the evening of May 15.",
+        hiddenSecret: "He was drinking in Hemraj's room with Rajkumar and Vijay Mandal on the night of the crime.",
+        isKiller: true,
+        vulnerabilities: "Sector 25 cell tower CDR records, narco-analysis video transcripts, purple khukuri seized by CBI Team 1."
+      },
+      {
+        id: "suspect-rajkumar",
+        name: "Rajkumar",
+        role: "Domestic Worker at Durrani Residence",
+        age: 26,
+        avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80",
+        personality: "Subdued, fearful, claims innocence under police interrogation.",
+        voiceTone: "Tense, stammering, avoids eye contact.",
+        publicAlibi: "I was asleep at my employer's home across the street.",
+        hiddenSecret: "He was present in the flat during the initial altercation but fled via the rear service stairs.",
+        isKiller: false,
+        vulnerabilities: "Blood-stained pillowcase recovered from his servant quarter, mobile tower pings."
+      },
+      {
+        id: "suspect-dr-father",
+        name: "Dr. Rajesh (Father)",
+        role: "Dentist & Father of Victim",
+        age: 49,
+        avatar: "https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=400&q=80",
+        personality: "Stoic, emotionally broken, bewildered by conflicting media trials and forensic leaks.",
+        voiceTone: "Formal, clinical, deeply grief-stricken.",
+        publicAlibi: "We were sleeping in our bedroom with the split AC running and heard nothing until 06:00.",
+        hiddenSecret: "He cleaned the room and touched evidence before forensic police sealed the apartment, fearing media contamination.",
+        isKiller: false,
+        vulnerabilities: "Golf club set missing club #5, internet router activity logs between 00:00 and 03:00."
+      },
+      {
+        id: "suspect-dr-mother",
+        name: "Dr. Nupur (Mother)",
+        role: "Dentist & Mother of Victim",
+        age: 46,
+        avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80",
+        personality: "Composed, highly articulate, traumatized by the protracted trials.",
+        voiceTone: "Firm, educated, critical of initial UP Police lapses.",
+        publicAlibi: "I was asleep in our master bedroom after putting our daughter to bed at 23:00.",
+        hiddenSecret: "She mistakenly locked the terrace door the following morning without checking the roof.",
+        isKiller: false,
+        vulnerabilities: "Disputed touch DNA reports from CDFD Hyderabad, key handover logs."
+      },
+      {
+        id: "suspect-vijay-mandal",
+        name: "Vijay Mandal",
+        role: "Neighboring Flat Helper",
+        age: 24,
+        avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80",
+        personality: "Nervous, easily intimidated, admitted to visiting Hemraj for drinks.",
+        voiceTone: "Hesitant, speaks in broken Hindi.",
+        publicAlibi: "I went back to my room by 22:30.",
+        hiddenSecret: "He witnessed the argument escalate over an illicit mobile phone transfer.",
+        isKiller: false,
+        vulnerabilities: "Fingerprints on Sula wine bottle found in Hemraj's room."
+      }
+    ],
+    clues: [
+      {
+        id: "clue-scalpel-cut",
+        title: "Forensic Post-Mortem: Surgical Incision",
+        category: "forensic",
+        description: "AIIMS & District Hospital Autopsy: Carotid arteries severed with an ultra-fine, surgically sharp single-stroke blade. No ragged laceration.",
+        significance: "Matches dental/surgical scalpel used in medical clinics.",
+        nodeType: "evidence",
+        discovered: true,
+        x: 400,
+        y: 180
+      },
+      {
+        id: "clue-terrace-lock",
+        title: "Terrace Blood Trail & Stained Lock",
+        category: "physical",
+        description: "Heavy bloody drag mark leading from the hallway to the rooftop terrace door, which was secured with a latch from the outside.",
+        significance: "Proves Hemraj was attacked inside the flat and dragged to the roof by at least two individuals.",
+        nodeType: "evidence",
+        discovered: true,
+        x: 650,
+        y: 280
+      },
+      {
+        id: "clue-cdr-sector25",
+        title: "Sector 25 Noida Cell Tower CDR Logs",
+        category: "digital",
+        description: "Tower 182-Noida CDR: Krishna's phone pinged Sector 25 at 23:48:12 IST, receiving a 42-second call from Hemraj's handset.",
+        significance: "Completely demolishes Krishna's Moradabad alibi.",
+        nodeType: "evidence",
+        discovered: true,
+        x: 180,
+        y: 320
+      }
+    ],
+    defaultConnections: [
+      { id: "conn-noida-1", from: "suspect-compounder-krishna", to: "clue-cdr-sector25", label: "CDR Location Match" }
+    ],
+    osintData: {
+      socialLeaks: [],
+      geoTraces: [],
+      forensics: []
+    },
+    crimeScene: {
+      backgroundImage: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1600&q=80",
+      description: "Apartment Flat L-32, Jalvayu Vihar. Quiet residential middle-class complex in Sector 25, Noida.",
+      hotspots: []
+    }
+  },
+
+  // 3. 🌐 REAL GLOBAL COLD CASE: The Zodiac Cipher & Lake Berryessa (1969)
   {
     id: "case-zodiac-cipher",
-    title: "The Zodiac Cipher & Lake Berryessa",
-    subtitle: "The Unsolved 1969 Northern California Cipher Murders",
-    difficulty: "Master Sleuth (Real Cold Case)",
-    estimatedTime: "25-35 mins",
+    title: "The Zodiac Cipher: Lake Berryessa (1969)",
+    subtitle: "The Unsolved Northern California Cipher Ambush",
+    difficulty: "Real Cold Case (Historical)",
+    estimatedTime: "Active Investigation",
     status: "UNSOLVED (REAL COLD CASE)",
     victim: "Bryan Hartnell & Cecelia Shepard",
-    victimRole: "College Students at Lake Berryessa, Napa County",
+    victimRole: "College Students at Lake Berryessa",
     timeOfDeath: "September 27, 1969 - 18:30 PST",
     location: "Lake Berryessa Shoreline, Napa County, California",
-    overview: "In 1969, an enigmatic serial killer wearing an executioner's hood with a crosshair symbol ambushed two students at Lake Berryessa. He tied them with plastic clothesline and stabbed them before scrawling the dates of previous attacks onto the car door. He taunted police and newspapers with complex encrypted ciphers.",
-    crimeDetails: "Victims bound with precut white hollow-core clothesline. Attacked with a custom 10-12 inch bayonet style knife. Car door written on with black felt pen: 'Vallejo 12-20-68, 7-4-69, Sept 27-69 - 6:30 by knife'.",
+    overview: "In September 1969, an unknown killer in a custom black executioner's hood embroidered with a crosshair symbol ambushed two college students at Lake Berryessa. He bound them with precut clothesline and attacked them with a custom 12-inch bayonet before scrawling previous attack dates on the car door and calling police from a public telephone booth.",
+    crimeDetails: "Victims bound with hollow-core plastic clothesline. Attacked with a double-edged 12-inch bayonet. Car door written on with black felt pen: 'Vallejo 12-20-68, 7-4-69, Sept 27-69 - 6:30 by knife'.",
     culpritId: "suspect-arthur-allen",
     murderWeapon: "Custom 12-inch Bayonet & Precut Clothesline",
-    actualMotive: "A pathological desire for public notoriety, psychological control over police, and sadistic thrill.",
-    keyContradiction: "Arthur Leigh Allen claimed he was scuba diving in Carmel on September 27, 1969, but witnesses and gas station receipts place his Corvair near Lake Berryessa with bloody hunting knives in his trunk.",
+    actualMotive: "Pathological craving for public notoriety and psychological dominance over law enforcement.",
+    keyContradiction: "Arthur Leigh Allen claimed he was scuba diving in Carmel on September 27, 1969, but gas station receipts and witnesses place his Corvair near Napa with bloody hunting knives in his trunk.",
     suspects: [
       {
         id: "suspect-arthur-allen",
@@ -240,33 +348,33 @@ export const INITIAL_CASES = [
         role: "Former Schoolteacher & Chemist",
         age: 35,
         avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80",
-        personality: "Childish, manipulative, wore a Zodiac brand watch with the exact crosshair logo.",
+        personality: "Childish, manipulative, wore a Zodiac brand watch with the exact crosshair symbol.",
         voiceTone: "Monotone, pedantic, evasive when questioned about firearms and diving.",
         publicAlibi: "I went diving down at Carmel all weekend and stayed at a coastal motel.",
-        hiddenSecret: "He told his friend Don Cheney in 1968 that he would call himself 'Zodiac' and kill couples with a flashlight attached to a gun.",
+        hiddenSecret: "He told his friend Don Cheney in 1968 that he would call himself 'Zodiac' and hunt humans.",
         isKiller: true,
         vulnerabilities: "Zodiac brand wristwatch, Royal typewriter matching cipher font, bloody knives in car trunk."
       },
       {
         id: "suspect-lawrence-kane",
         name: "Lawrence Kane",
-        role: "Nightclub Manager & Electronics Tech",
+        role: "Nightclub Manager & Tech",
         age: 45,
         avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
-        personality: "Volatile, sustained severe brain injury in 1962 affecting emotional control.",
+        personality: "Volatile, sustained severe brain injury affecting impulse control.",
         voiceTone: "Fast, nervous, sharp New York accent.",
-        publicAlibi: "I was working at the Sahara Tahoe hotel and casino.",
-        hiddenSecret: "He stalked victim Darlene Ferrin at the Vallejo diner prior to her murder.",
+        publicAlibi: "I was working at the Sahara Tahoe hotel.",
+        hiddenSecret: "He stalked victim Darlene Ferrin at a Vallejo diner prior to her shooting.",
         isKiller: false,
-        vulnerabilities: "Casino timesheet gaps, identification by officer Fouke."
+        vulnerabilities: "Timesheet gaps, identification by Officer Fouke."
       },
       {
         id: "suspect-richard-gaikowski",
         name: "Richard Gaikowski",
-        role: "Anti-War Newspaper Editor",
+        role: "Counterculture Newspaper Editor",
         age: 33,
         avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80",
-        personality: "Intellectual counterculture activist, obsessed with coded messages.",
+        personality: "Intellectual anti-war activist, obsessed with coded messages.",
         voiceTone: "Fast, energetic, argumentative.",
         publicAlibi: "I was editing articles in the San Francisco Good Times office.",
         hiddenSecret: "His newspaper published coded poems matching cipher patterns weeks before Zodiac letters arrived.",
@@ -276,13 +384,13 @@ export const INITIAL_CASES = [
       {
         id: "suspect-ross-sullivan",
         name: "Ross Sullivan",
-        role: "Riverside College Library Assistant",
+        role: "College Library Assistant",
         age: 28,
         avatar: "https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=400&q=80",
         personality: "Reclusive, 6ft 2in 250lbs, wore military fatigue jackets.",
         voiceTone: "Muffled, awkward, nervous.",
         publicAlibi: "I was in the college library stacks.",
-        hiddenSecret: "He vanished for several days immediately after the 1966 Riverside murder and was hospitalized for psychiatric breakdown.",
+        hiddenSecret: "He vanished for several days immediately after the 1966 Riverside murder.",
         isKiller: false,
         vulnerabilities: "Library checkout records, military footprint matching size 10.5 Wing Walker boots."
       },
@@ -292,7 +400,7 @@ export const INITIAL_CASES = [
         role: "Air Force Veteran & House Painter",
         age: 41,
         avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80",
-        personality: "Military disciplinarian, survivalist leader of a local mountain posse.",
+        personality: "Military disciplinarian, survivalist leader.",
         voiceTone: "Gruff, stern, authoritative.",
         publicAlibi: "I was painting houses in the High Sierra foothills.",
         hiddenSecret: "He possessed distinct forehead scars identical to the police composite sketch of Zodiac.",
@@ -334,298 +442,8 @@ export const INITIAL_CASES = [
     },
     crimeScene: {
       backgroundImage: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80",
-      description: "Isolated shoreline of Lake Berryessa under dusk sun. Oak trees, dry grass, white Karmann Ghia parked near dirt road.",
+      description: "Isolated shoreline of Lake Berryessa under dusk sun.",
       hotspots: []
-    }
-  },
-
-  // 🏙️ ORIGINAL CYBER-NOIR MASTER CASE
-  {
-    id: "case-penthouse-poisoning",
-    title: "The Obsidian Penthouse Poisoning",
-    subtitle: "The Fall of Tech Titan Victor Thorne",
-    difficulty: "Master Sleuth",
-    estimatedTime: "20-30 mins",
-    status: "UNSOLVED",
-    victim: "Victor Thorne (Age 54)",
-    victimRole: "Founder & CEO of NeuroVance Biotech",
-    timeOfDeath: "August 28, 2026 - 23:14 EST",
-    location: "84th Floor Penthouse Suite, The Obsidian Tower, Manhattan",
-    overview: "Billionaire tech visionary Victor Thorne was discovered dead at his mahogany desk inside his biometrically locked penthouse. The glass of 50-year-old Macallan scotch contained lethal traces of a synthesized synthetic neurotoxin 'V-99'. Five key individuals with access and motives were inside the tower that night.",
-    crimeDetails: "Toxicology confirms cardiac arrest triggered by acute potassium-neurotoxin compound V-99 within 90 seconds of ingestion. The study door was locked from the inside via biometric smart lock. CCTV footage from the 84th floor corridor went black between 23:05 and 23:16.",
-    culpritId: "suspect-marcus", // Dr. Marcus Vance
-    murderWeapon: "V-99 Neurotoxin injected into ice cubes",
-    actualMotive: "Victor discovered Dr. Vance was conducting illicit human gene trials and threatened to expose him to the FDA and strip his patents.",
-    keyContradiction: "Dr. Vance claimed his specialized ultra-cold peptide freezer was never opened after 20:00, but OSINT IoT smart lab telemetry proves the cryogenic seal was broken at 22:52 with his biometric keycard.",
-    
-    suspects: [
-      {
-        id: "suspect-elena",
-        name: "Elena Rostova",
-        role: "Chief Operating Officer & Co-Founder",
-        age: 41,
-        avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80",
-        personality: "Cold, razor-sharp, calculating corporate executive. Unflinching under routine scrutiny.",
-        voiceTone: "Authoritative, crisp British accent, dismissive of police bureaucracy.",
-        publicAlibi: "I was on an encrypted Zoom board meeting with our Tokyo syndicate investors from 22:15 to 23:45 in the 82nd floor conference suite.",
-        hiddenSecret: "She secretly embezzled $34 Million from company accounts to cover offshore crypto derivative losses.",
-        isKiller: false,
-        vulnerabilities: "Financial audit logs, encrypted Swiss transfer receipts, Tokyo call VPN logs showing her webcam was looped for 15 minutes."
-      },
-      {
-        id: "suspect-marcus",
-        name: "Dr. Marcus Vance",
-        role: "Chief Biochemist & Personal Physician",
-        age: 49,
-        avatar: "https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=400&q=80",
-        personality: "Intellectually arrogant, neurotic, speaks with clinical precision and condescension.",
-        voiceTone: "Methodical, speaks slowly, frequently adjusts his glasses, gets irritable when his medical genius is questioned.",
-        publicAlibi: "I was calibrating the spectrometer in the Sub-Level 2 Bio-Lab until midnight. The lab is completely restricted.",
-        hiddenSecret: "He formulated the lethal V-99 neurotoxin and coated slow-melting spherical ice cubes left in Victor's private freezer bar.",
-        isKiller: true,
-        vulnerabilities: "Sub-level IoT freezer logs, missing 5ml vial of V-99, chemical residue under his manicured nails, Victor's draft FDA whistleblower email."
-      },
-      {
-        id: "suspect-chloe",
-        name: "Chloe Thorne",
-        role: "Estranged Stepdaughter & Model",
-        age: 26,
-        avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
-        personality: "Defiant, emotional, resentful of her stepfather's controlling behavior.",
-        voiceTone: "Edgy, sarcastic, defensive, speaks quickly when agitated.",
-        publicAlibi: "I stormed out of the penthouse at 21:30 after a screaming match with Victor. I was partying at Club Velvet in Soho all night.",
-        hiddenSecret: "She sneaked back into the building at 22:45 to steal Victor's black ledger to find evidence of her mother's inheritance trust.",
-        isKiller: false,
-        vulnerabilities: "VIP Club CCTV timestamps, parking garage access swipe card at 22:42, stolen diamond pendant found in her purse."
-      },
-      {
-        id: "suspect-dante",
-        name: "Dante 'Zero' Silva",
-        role: "Director of Cyber Security & Head Hacker",
-        age: 34,
-        avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80",
-        personality: "Paranoid, cynical, extremely tech-savvy, speaks in tech jargon and cybersecurity slang.",
-        voiceTone: "Muffled, guarded, avoids direct eye contact, constantly tapping fingers.",
-        publicAlibi: "I was in the server room on Floor 80 monitoring the network security integrity during the VIP gathering.",
-        hiddenSecret: "He intentionally wiped the corridor CCTV logs between 23:05 and 23:16 because he was installing a hardware keylogger on Victor's terminal for a black hat buyer.",
-        isKiller: false,
-        vulnerabilities: "Hardware keylogger interceptor found on Victor's USB bus, encrypted DarkNet chat with 'ShadowBroker', crypto payout."
-      },
-      {
-        id: "suspect-kaito",
-        name: "Kaito Tanaka",
-        role: "Personal Butler & Estate Manager",
-        age: 58,
-        avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80",
-        personality: "Impeccably polite, quiet, traditional, observant of every tiny detail.",
-        voiceTone: "Subdued, reverent, formal Japanese mannerisms, unwavering composure.",
-        publicAlibi: "I served Mr. Thorne his scotch at 22:30, refreshed the ice bucket from the private pantry, and retired to the staff quarters to polish the silver.",
-        hiddenSecret: "He is deep in illegal gambling debt with the Yakuza and stole Victor's rare $500,000 Patek Philippe watch right after finding the corpse before calling 911.",
-        isKiller: false,
-        vulnerabilities: "Blood smear on silver cufflinks in the laundry chute, stolen Patek Philippe watch hidden in the pantry ceiling tile."
-      }
-    ],
-
-    clues: [
-      {
-        id: "clue-whiskey-glass",
-        title: "Poisoned Crystal Tumbler",
-        category: "forensic",
-        description: "A crystal glass containing melted spherical ice and 15ml of 50-year scotch. Chemical analysis reveals 800mg of synthetic neurotoxin V-99.",
-        significance: "The lethal vehicle. The toxin was impregnated inside the slow-melting ice sphere, delaying poisoning by ~40 minutes after serving.",
-        nodeType: "evidence",
-        discovered: true,
-        x: 420,
-        y: 180
-      },
-      {
-        id: "clue-cctv-blackout",
-        title: "84th Floor CCTV Blackout",
-        category: "digital",
-        description: "All optical and thermal sensors on the 84th floor corridor were overridden with a manual administrative loop from 23:05 to 23:16.",
-        significance: "Proves internal security tampering. Requires level 5 administrative root credentials to execute.",
-        nodeType: "evidence",
-        discovered: true,
-        x: 650,
-        y: 290
-      },
-      {
-        id: "clue-autopsy-report",
-        title: "Coroner's Autopsy Dossier #26-881",
-        category: "forensic",
-        description: "Victim died of instant neuromuscular paralysis and cardiac arrest at 23:14 (+/- 3 mins). Stomach contents show scotch, traces of rare peptide binder.",
-        significance: "Pinpoints the exact time of death. The peptide binder is proprietary to NeuroVance's internal lab.",
-        nodeType: "evidence",
-        discovered: true,
-        x: 180,
-        y: 320
-      },
-      {
-        id: "clue-draft-email",
-        title: "Victor's Draft Whistleblower Email",
-        category: "digital",
-        description: "Unsent email on Victor's computer addressed to FDA Criminal Investigations division regarding 'Illegal Phase 3 trials & unauthorized neurotoxins by Dr. Vance'.",
-        significance: "Direct murder motive for Dr. Marcus Vance. Sent timestamp draft: 21:40 on the night of the murder.",
-        nodeType: "evidence",
-        discovered: false,
-        x: 220,
-        y: 490
-      },
-      {
-        id: "clue-freezer-log",
-        title: "Cryogenic Lab Access Telemetry",
-        category: "digital",
-        description: "Sub-Level 2 Bio-Lab Cryo-Vault Log: 'V-99 Peptide Storage Unit opened at 22:52:11 by Keycard #004 (Dr. M. Vance)'.",
-        significance: "Directly shatters Dr. Vance's alibi that he never opened the cryo-unit after 20:00.",
-        nodeType: "evidence",
-        discovered: false,
-        x: 720,
-        y: 480
-      },
-      {
-        id: "clue-ice-sphere-mold",
-        title: "Cryo-Grade Silicone Ice Mold",
-        category: "physical",
-        description: "Found inside the executive pantry freezer. Silicone spherical mold with microscopic residue of potassium neurotoxin and pipette markings.",
-        significance: "Proves premeditated delivery mechanism. Someone prepared the poisoned ice prior to the evening.",
-        nodeType: "evidence",
-        discovered: false,
-        x: 430,
-        y: 430
-      },
-      {
-        id: "clue-black-ledger",
-        title: "Victor's Handwritten Safe Ledger",
-        category: "physical",
-        description: "Found inside Chloe Thorne's backpack. Contains records of inheritance trusts and a newly signed will disinheriting Chloe.",
-        significance: "Explains Chloe's presence in the building at 22:45, but doesn't connect her to the biochemical toxin.",
-        nodeType: "evidence",
-        discovered: true,
-        x: 160,
-        y: 160
-      },
-      {
-        id: "clue-bloody-cufflinks",
-        title: "Silver Cufflinks in Laundry Chute",
-        category: "physical",
-        description: "Pair of sterling silver monogrammed cufflinks found wrapped in linen with a smear of Victor's blood and fingerprints matching Butler Kaito.",
-        significance: "Kaito panicked upon finding Victor's body and stole his watch, cutting himself on the broken decanter.",
-        nodeType: "evidence",
-        discovered: true,
-        x: 820,
-        y: 190
-      }
-    ],
-
-    defaultConnections: [
-      { id: "conn-1", from: "suspect-marcus", to: "clue-whiskey-glass", label: "V-99 Toxin Origin" },
-      { id: "conn-2", from: "suspect-dante", to: "clue-cctv-blackout", label: "Root Access Overridden" },
-      { id: "conn-3", from: "suspect-kaito", to: "clue-bloody-cufflinks", label: "Fled Scene & Stole Watch" }
-    ],
-
-    osintData: {
-      socialLeaks: [
-        {
-          id: "osint-1",
-          target: "Elena Rostova (@Elena_Rostova_COO)",
-          platform: "X / Twitter & LinkedCorporate",
-          timestamp: "2026-08-28 22:40 EST",
-          snippet: "Automated bot post: 'Proud to announce NeuroVance Q3 milestones with our Tokyo partners!' - IP Geolocation trace reveals post came from a scheduled Hootsuite queue from Cyprus VPN.",
-          threatLevel: "Medium",
-          notes: "Elena was using automation to fake her active presence during the evening."
-        },
-        {
-          id: "osint-2",
-          target: "Dante Silva (Handle: @ZeroDay_Ghost)",
-          platform: "BreachForums / DarkNet",
-          timestamp: "2026-08-27 03:12 EST",
-          snippet: "Encrypted Escrow Deposit: 4.2 BTC ($280,000) received from anonymous buyer for 'Physical Hardware Exfiltration at Obsidian Tower'.",
-          threatLevel: "High",
-          notes: "Dante was hired for corporate espionage, explaining why he shut down CCTV for 11 minutes."
-        }
-      ],
-      geoTraces: [
-        {
-          id: "geo-1",
-          subject: "Chloe Thorne",
-          device: "iPhone 16 Pro (IMEI: 359128...)",
-          logs: [
-            { time: "21:35", tower: "Tower 44 (Midtown)", status: "Departed Obsidian Tower" },
-            { time: "22:10", tower: "Tower 12 (SoHo)", status: "Arrived Club Velvet" },
-            { time: "22:42", tower: "Tower 44 (Midtown)", status: "Returned to Obsidian Parking Garage" },
-            { time: "23:05", tower: "Tower 44 (Midtown)", status: "Departed Obsidian Parking Garage via Uber" }
-          ]
-        },
-        {
-          id: "geo-2",
-          subject: "Dr. Marcus Vance",
-          device: "Bio-Sensor Smartwatch (MAC: 4A:88:C3...)",
-          logs: [
-            { time: "20:00", tower: "Sub-Level 2 Bio-Lab", status: "Heart Rate: 68 BPM" },
-            { time: "22:50", tower: "Sub-Level 2 Vault", status: "Heart Rate: 138 BPM (Adrenaline Spike)" },
-            { time: "23:18", tower: "Sub-Level 2 Bio-Lab", status: "Heart Rate: 112 BPM" }
-          ]
-        }
-      ],
-      forensics: [
-        {
-          id: "forensic-1",
-          title: "Victor's Encrypted Phone (Signal Chat Logs)",
-          fileType: "SQLite DB / Decrypted",
-          preview: "Victor to Dr. Vance (21:15): 'I saw the lab audit, Marcus. You manufactured V-99 against my explicit orders. Tomorrow morning, the board and federal marshals take over your lab.'\nDr. Vance (21:18): 'Victor, please. Let's discuss this over a drink in your study before you destroy my life's work.'",
-          verified: true
-        },
-        {
-          id: "forensic-2",
-          title: "Pantry Refrigerator Ice Maker EXIF & Firmware Log",
-          fileType: "IoT Sensor Dump",
-          preview: "Ice compartment opened manually at 21:45 using maintenance override key. 1x spherical specialty cube inserted into top tray.",
-          verified: true
-        }
-      ]
-    },
-
-    crimeScene: {
-      backgroundImage: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1600&q=80",
-      description: "Victor Thorne's 84th-floor study. Dark mahogany paneling, city skyline visible through floor-to-ceiling panoramic glass, Persian rugs, mahogany desk with deceased victim slumped forward.",
-      hotspots: [
-        {
-          id: "hotspot-desk",
-          name: "Mahogany Desk & Body",
-          x: 48,
-          y: 52,
-          radius: 35,
-          clueId: "clue-whiskey-glass",
-          discoveredText: "Slumped over the desk is Victor Thorne. Beside his right hand rests an overturned crystal tumbler with a half-melted ice sphere and faint almond odor."
-        },
-        {
-          id: "hotspot-computer",
-          name: "Unlocked Terminal & Monitor",
-          x: 62,
-          y: 42,
-          radius: 28,
-          clueId: "clue-draft-email",
-          discoveredText: "The monitor displays a draft email to the FDA regarding unauthorized neurotoxin synthesis by Dr. Marcus Vance."
-        },
-        {
-          id: "hotspot-safe",
-          name: "Wall Safe behind Painting",
-          x: 22,
-          y: 38,
-          radius: 26,
-          clueId: "clue-black-ledger",
-          discoveredText: "The oil painting is swung open. The biometric keypad was accessed with Chloe's emergency backup passcode."
-        },
-        {
-          id: "hotspot-pantry",
-          name: "Private Bar & Freezer",
-          x: 82,
-          y: 60,
-          radius: 30,
-          clueId: "clue-ice-sphere-mold",
-          discoveredText: "UV Luminol reveals chemical glow around the ice mold in the freezer tray. The mold matches the dimension of the ice sphere in the murder tumbler."
-        }
-      ]
     }
   }
 ];
