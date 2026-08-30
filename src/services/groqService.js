@@ -61,7 +61,6 @@ ROLEPLAY RULES:
 }
 IMPORTANT: Return ONLY the JSON object, with no surrounding markdown or explanation.`;
 
-  // Build message sequence
   const messages = [
     { role: 'system', content: systemPrompt },
     ...chatHistory.map(msg => ({
@@ -77,7 +76,6 @@ IMPORTANT: Return ONLY the JSON object, with no surrounding markdown or explanat
   ];
 
   if (!apiKey) {
-    // Fallback simulation when API key is missing
     return simulateSuspectReply(suspect, userQuestion, confrontedClue, currentStress);
   }
 
@@ -98,8 +96,6 @@ IMPORTANT: Return ONLY the JSON object, with no surrounding markdown or explanat
     });
 
     if (!response.ok) {
-      const errData = await response.json().catch(() => ({}));
-      console.warn('Groq API returned error:', errData);
       return simulateSuspectReply(suspect, userQuestion, confrontedClue, currentStress);
     }
 
@@ -142,7 +138,7 @@ Provide sharp, razor-focused deductive reasoning, spot potential timeline contra
 Keep your response concise, brilliant, and styled in L's calm, analytical, and eccentric tone. (Under 180 words).`;
 
   if (!apiKey) {
-    return "Analyzing the evidence... The timeline between 22:30 and 23:15 presents a critical 45-minute anomaly. Cross-reference the security logs with the physician's toxicology report. Someone is fabricating their whereabouts.";
+    return "Analyzing the evidence... The timeline between 22:30 and 23:15 presents a critical anomaly. Cross-reference the security logs with the forensic toxicology report. Someone is fabricating their whereabouts.";
   }
 
   try {
@@ -168,72 +164,171 @@ Keep your response concise, brilliant, and styled in L's calm, analytical, and e
     return data.choices[0]?.message?.content || "No deductive conclusion reached yet.";
   } catch (e) {
     console.error('L Consultation Error:', e);
-    return "Based on the evidence board, the killer had physical access to the victim's study before the alarm was triggered. Focus your interrogation on whoever had the digital keycard.";
+    return "Based on the evidence board, the killer had physical access to the scene before the alert was triggered. Focus your interrogation on whoever had the keys.";
   }
 }
 
 /**
- * Generate a brand new procedural cold case with 5 suspects using Groq
+ * Generate a brand new procedural cold case (Indian, International, or Custom Theme) with 5 suspects
  */
-export async function generateProceduralCase(customTheme = "Cyberpunk Neo-Noir Murder") {
+export async function generateProceduralCase(customTheme = "Real Indian Cold Case in Mumbai") {
   const apiKey = getGroqApiKey();
   
-  const systemPrompt = `You are a master mystery writer and detective scenario architect.
-Generate an intricate, captivating, logic-tight murder mystery case with EXACTLY 5 SUSPECTS, rich clues, crime scene hotspots, and OSINT leads.
+  const systemPrompt = `You are a master investigative journalist and criminologist specializing in authentic murder mystery cases (including real Indian unsolved cases or international cold cases).
+Generate an intricate, high-stakes case with EXACTLY 5 SUSPECTS, rich clues, crime scene hotspots, and OSINT leads.
 
-THEME: ${customTheme}
+THEME / USER PROMPT: ${customTheme}
 
 Format your output STRICTLY as a JSON object matching this schema:
 {
   "id": "case-generated-${Date.now()}",
   "title": "The Title of the Case",
   "subtitle": "Short punchy subline",
-  "difficulty": "Hard",
+  "difficulty": "Master Sleuth",
   "estimatedTime": "25 mins",
-  "victim": "Victim Full Name",
+  "status": "UNSOLVED",
+  "victim": "Victim Full Name / Victims",
   "victimRole": "Their status/profession",
-  "timeOfDeath": "e.g. August 28, 2026 - 23:14 EST",
-  "location": "Specific lavish or secretive location",
+  "timeOfDeath": "e.g. November 14 - 02:30 IST",
+  "location": "Specific location and city",
   "overview": "Rich 3-sentence narrative backdrop",
   "crimeDetails": "Specific forensic cause of death and scene state",
-  "culpritId": "suspect-X (must match one of the 5 suspects)",
-  "murderWeapon": "Specific weapon or toxin",
+  "culpritId": "suspect-1 (must match one of the 5 suspects below)",
+  "murderWeapon": "Specific weapon or mechanism",
   "actualMotive": "The true concealed motive",
   "keyContradiction": "The exact contradiction that breaks the killer's alibi",
   "suspects": [
     {
       "id": "suspect-1",
       "name": "Full Name",
+      "role": "Relationship to victim/crime",
+      "age": 38,
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80",
+      "personality": "Personality traits",
+      "voiceTone": "How they talk",
+      "publicAlibi": "Their stated alibi",
+      "hiddenSecret": "Their secret",
+      "isKiller": true,
+      "vulnerabilities": "What evidence cracks them"
+    },
+    {
+      "id": "suspect-2",
+      "name": "Full Name",
       "role": "Relationship to victim",
+      "age": 42,
       "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
       "personality": "Personality traits",
       "voiceTone": "How they talk",
       "publicAlibi": "Their stated alibi",
       "hiddenSecret": "Their secret",
-      "isKiller": true or false (EXACTLY ONE suspect must have true),
+      "isKiller": false,
+      "vulnerabilities": "What evidence cracks them"
+    },
+    {
+      "id": "suspect-3",
+      "name": "Full Name",
+      "role": "Relationship to victim",
+      "age": 29,
+      "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80",
+      "personality": "Personality traits",
+      "voiceTone": "How they talk",
+      "publicAlibi": "Their stated alibi",
+      "hiddenSecret": "Their secret",
+      "isKiller": false,
+      "vulnerabilities": "What evidence cracks them"
+    },
+    {
+      "id": "suspect-4",
+      "name": "Full Name",
+      "role": "Relationship to victim",
+      "age": 51,
+      "avatar": "https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=400&q=80",
+      "personality": "Personality traits",
+      "voiceTone": "How they talk",
+      "publicAlibi": "Their stated alibi",
+      "hiddenSecret": "Their secret",
+      "isKiller": false,
+      "vulnerabilities": "What evidence cracks them"
+    },
+    {
+      "id": "suspect-5",
+      "name": "Full Name",
+      "role": "Relationship to victim",
+      "age": 34,
+      "avatar": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80",
+      "personality": "Personality traits",
+      "voiceTone": "How they talk",
+      "publicAlibi": "Their stated alibi",
+      "hiddenSecret": "Their secret",
+      "isKiller": false,
       "vulnerabilities": "What evidence cracks them"
     }
-    // EXACTLY 5 SUSPECTS in total
   ],
   "clues": [
     {
       "id": "clue-1",
       "title": "Clue Name",
-      "category": "physical | digital | forensic | testimonial",
+      "category": "physical",
       "description": "Detailed clue text",
       "significance": "Why it matters",
-      "discovered": true
-    }
-    // At least 6-8 clues
-  ],
-  "osintLeads": [
+      "discovered": true,
+      "x": 420,
+      "y: 180
+    },
     {
-      "id": "osint-1",
-      "type": "social | darkweb | geo | financial",
-      "target": "Target name or handle",
-      "data": "Leaked info or log record"
+      "id": "clue-2",
+      "title": "Clue Name 2",
+      "category": "forensic",
+      "description": "Detailed clue text",
+      "significance": "Why it matters",
+      "discovered": true,
+      "x": 650,
+      "y": 280
+    },
+    {
+      "id": "clue-3",
+      "title": "Clue Name 3",
+      "category": "digital",
+      "description": "Detailed clue text",
+      "significance": "Why it matters",
+      "discovered": false,
+      "x": 220,
+      "y": 480
     }
-  ]
+  ],
+  "defaultConnections": [
+    { "id": "conn-gen-1", "from": "suspect-1", "to": "clue-1", "label": "Key Link" }
+  ],
+  "osintData": {
+    "socialLeaks": [
+      {
+        "id": "osint-g-1",
+        "target": "Target Name",
+        "platform": "DarkNet / Police FIR",
+        "timestamp": "Time",
+        "snippet": "Snippet text",
+        "threatLevel": "High",
+        "notes": "Analyst notes"
+      }
+    ],
+    "geoTraces": [],
+    "forensics": []
+  },
+  "crimeScene": {
+    "backgroundImage": "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1600&q=80",
+    "description": "Crime scene environment description",
+    "hotspots": [
+      {
+        "id": "hotspot-1",
+        "name": "Key Scene Hotspot",
+        "x": 50,
+        "y": 50,
+        "radius": 30,
+        "clueId": "clue-1",
+        "discoveredText": "What is found here"
+      }
+    ]
+  }
 }
 
 Return ONLY the raw JSON object.`;
@@ -272,7 +367,7 @@ function simulateSuspectReply(suspect, question, clue, currentStress) {
   
   if (isPressured) {
     return {
-      dialogue: `Wait... where did you get that?! That's completely taken out of context! I didn't kill anyone, I swear!`,
+      dialogue: `Wait... where did you get that evidence?! That's completely taken out of context! I didn't kill anyone, I swear!`,
       stressDelta: 18,
       heartRateBpm: Math.min(150, 95 + Math.floor(Math.random() * 30)),
       emotionalState: "Panicked",
