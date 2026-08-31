@@ -73,7 +73,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-noir-950 text-noir-100 flex flex-col selection:bg-blood-600 selection:text-white">
+    <div className="h-screen w-full bg-noir-950 text-noir-100 flex flex-col overflow-hidden selection:bg-blood-600 selection:text-white">
       
       {/* Top Header Navigation */}
       <Navbar
@@ -90,7 +90,7 @@ export default function App() {
       />
 
       {/* Main Tab Viewports */}
-      <main className="flex-1 relative overflow-hidden">
+      <main className="flex-1 min-h-0 w-full relative overflow-hidden flex flex-col">
         {currentTab === 'advisor' && (
           <CaseAdvisor
             activeCase={activeCase}

@@ -37,16 +37,14 @@ export default function Pinboard({ activeCase, onDiscoverClue, onSolveDeduction 
 
   // Synchronize case data into pinboard nodes
   useEffect(() => {
-    if (!activeCase) return;
-
     const suspectNodes = activeCase.suspects.map((s, index) => ({
       id: s.id,
       title: s.name,
       subtitle: s.role,
       category: 'suspect',
       avatar: s.avatar,
-      x: 80 + (index % 3) * 260,
-      y: 60 + Math.floor(index / 3) * 260,
+      x: 30 + (index % 4) * 240,
+      y: 25 + Math.floor(index / 4) * 240,
       details: s.publicAlibi
     }));
 
@@ -57,8 +55,8 @@ export default function Pinboard({ activeCase, onDiscoverClue, onSolveDeduction 
         title: c.title,
         subtitle: c.category.toUpperCase(),
         category: c.category,
-        x: c.x || (350 + (index % 3) * 240),
-        y: c.y || (220 + Math.floor(index / 3) * 200),
+        x: c.x || (40 + (index % 4) * 240),
+        y: c.y || (270 + Math.floor(index / 4) * 220),
         details: c.description
       }));
 
@@ -80,6 +78,16 @@ export default function Pinboard({ activeCase, onDiscoverClue, onSolveDeduction 
     }
   };
 
+  const handleCanvasMouseDown = (e) => {
+    if (e.target === containerRef.current || e.target.tagName === 'svg') {
+      setIsDraggingCanvas(true);
+      setDragStart({
+        x: e.clientX - panOffset.x,
+        y: e.clientY - panOffset.y
+      });
+    }
+  };
+
   const handleCanvasMouseMove = (e) => {
     if (draggedNodeId) {
       const newX = (e.clientX / zoomLevel) - nodeOffset.x;
@@ -96,6 +104,11 @@ export default function Pinboard({ activeCase, onDiscoverClue, onSolveDeduction 
   const handleCanvasMouseUp = () => {
     setDraggedNodeId(null);
     setIsDraggingCanvas(false);
+  };
+
+  const handleWheel = (e) => {
+    const zoomDelta = e.deltaY > 0 ? -0.05 : 0.05;
+    setZoomLevel(z => Math.max(0.5, Math.min(1.5, parseFloat((z + zoomDelta).toFixed(2)))));
   };
 
   // Node Connection (Draw Red Yarn)
@@ -194,18 +207,18 @@ export default function Pinboard({ activeCase, onDiscoverClue, onSolveDeduction 
   });
 
   return (
-    <div className="relative w-full h-[calc(100vh-4rem)] overflow-hidden flex flex-col bg-noir-950">
+    <div className="relative w-full h-full flex-1 min-h-0 overflow-hidden flex flex-col bg-noir-950">
       
       {/* Top Toolbar */}
-      <div className="z-20 flex flex-wrap items-center justify-between p-3 glass-panel border-b border-noir-800/80 bg-noir-950/80">
-        <div className="flex items-center space-x-3">
+      <div className="z-20 flex flex-wrap items-center justify-between px-3 py-2 sm:p-3 glass-panel border-b border-noir-800/80 bg-noir-950/90 flex-shrink-0 gap-2">
+        <div className="flex items-center space-x-2 sm:space-x-3">
           <div className="flex items-center space-x-1 bg-noir-900 p-1 rounded-lg border border-noir-800">
-            <span className="text-xs font-mono text-noir-400 px-2">Filter:</span>
+            <span className="text-[11px] sm:text-xs font-mono text-noir-400 px-1 sm:px-2">Filter:</span>
             {['all', 'suspect', 'clue', 'notes'].map((cat) => (
               <button
                 key={cat}
                 onClick={() => setFilterCategory(cat)}
-                className={`text-xs uppercase font-mono px-2.5 py-1 rounded ${
+                className={`text-[11px] sm:text-xs uppercase font-mono px-2 sm:px-2.5 py-0.5 sm:py-1 rounded ${
                   filterCategory === cat
                     ? 'bg-blood-600 text-white font-bold'
                     : 'text-noir-300 hover:bg-noir-800'
@@ -219,24 +232,24 @@ export default function Pinboard({ activeCase, onDiscoverClue, onSolveDeduction 
           <div className="h-4 w-[1px] bg-noir-700 hidden sm:block"></div>
 
           {/* Quick instructions / status */}
-          <div className="hidden lg:flex items-center space-x-2 text-xs font-mono text-amber-400/90 bg-amber-950/30 px-3 py-1 rounded-lg border border-amber-800/40">
+          <div className="hidden xl:flex items-center space-x-2 text-xs font-mono text-amber-400/90 bg-amber-950/30 px-3 py-1 rounded-lg border border-amber-800/40">
             <Sparkles className="w-3.5 h-3.5 animate-pulse text-amber-400" />
             <span>Click one card, then another to string together red leads. Drag cards to organize.</span>
           </div>
         </div>
 
         {/* Action buttons */}
-        <div className="flex items-center space-x-2 mt-2 sm:mt-0">
+        <div className="flex items-center space-x-2">
           <button
             onClick={() => setIsAddingNote(true)}
-            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-noir-850 hover:bg-noir-800 text-xs font-mono text-amber-400 border border-amber-700/40 transition-all"
+            className="flex items-center space-x-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg bg-noir-850 hover:bg-noir-800 text-xs font-mono text-amber-400 border border-amber-700/40 transition-all"
           >
             <Plus className="w-3.5 h-3.5" />
             <span>Add Detective Pin</span>
           </button>
 
           {/* Zoom controls */}
-          <div className="flex items-center space-x-1 bg-noir-900 p-1 rounded-lg border border-noir-800">
+          <div className="flex items-center space-x-1 bg-noir-900 p-0.5 sm:p-1 rounded-lg border border-noir-800">
             <button
               onClick={() => setZoomLevel(z => Math.max(0.6, z - 0.1))}
               className="p-1 text-noir-400 hover:text-white"
@@ -286,9 +299,13 @@ export default function Pinboard({ activeCase, onDiscoverClue, onSolveDeduction 
       {/* Main Corkboard Interactive Canvas */}
       <div 
         ref={containerRef}
+        onMouseDown={handleCanvasMouseDown}
         onMouseMove={handleCanvasMouseMove}
         onMouseUp={handleCanvasMouseUp}
-        className="relative flex-1 w-full h-full corkboard-bg overflow-hidden cursor-crosshair select-none"
+        onWheel={handleWheel}
+        className={`relative flex-1 w-full h-full corkboard-bg overflow-hidden select-none ${
+          isDraggingCanvas ? 'cursor-grabbing' : 'cursor-grab'
+        }`}
         style={{
           transform: `scale(${zoomLevel}) translate(${panOffset.x}px, ${panOffset.y}px)`,
           transformOrigin: 'top left'

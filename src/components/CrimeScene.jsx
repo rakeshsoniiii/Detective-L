@@ -39,12 +39,12 @@ export default function CrimeScene({ activeCase, onDiscoverClue }) {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 h-[calc(100vh-4.5rem)] flex flex-col gap-4 font-mono">
+    <div className="w-full max-w-7xl mx-auto px-2 sm:px-4 lg:px-6 py-2 sm:py-3 h-full flex-1 min-h-0 flex flex-col gap-3 overflow-hidden font-mono">
       
       {/* Crime Scene Top Bar */}
-      <div className="glass-panel p-3 rounded-2xl border border-noir-800 flex flex-wrap items-center justify-between gap-3">
+      <div className="glass-panel p-3 rounded-2xl border border-noir-800 flex flex-wrap items-center justify-between gap-2 sm:gap-3 flex-shrink-0">
         <div className="flex items-center space-x-3">
-          <div className="p-2 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/30">
+          <div className="p-2 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/30 flex-shrink-0">
             <Camera className="w-5 h-5 animate-pulse" />
           </div>
           <div>
@@ -61,7 +61,7 @@ export default function CrimeScene({ activeCase, onDiscoverClue }) {
         </div>
 
         {/* Forensic Lens Mode Selector */}
-        <div className="flex items-center space-x-1 bg-noir-900 p-1 rounded-xl border border-noir-800">
+        <div className="flex items-center space-x-1 bg-noir-900 p-1 rounded-xl border border-noir-800 overflow-x-auto no-scrollbar">
           {[
             { id: 'magnifier', label: 'Optical Loupe', icon: Search },
             { id: 'uv', label: 'UV Luminol Spray', icon: Lightbulb },
@@ -76,7 +76,7 @@ export default function CrimeScene({ activeCase, onDiscoverClue }) {
                   soundService.playTypewriter();
                   setSelectedTool(t.id);
                 }}
-                className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                className={`flex items-center space-x-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap ${
                   active
                     ? t.id === 'uv' 
                       ? 'bg-purple-600 text-white shadow-lg' 
@@ -95,7 +95,7 @@ export default function CrimeScene({ activeCase, onDiscoverClue }) {
       </div>
 
       {/* Main Crime Scene Viewport */}
-      <div className="relative flex-1 rounded-2xl overflow-hidden border border-noir-800 shadow-2xl bg-black">
+      <div className="relative flex-1 min-h-0 rounded-2xl overflow-hidden border border-noir-800 shadow-2xl bg-black">
         
         {/* Background Crime Scene Image */}
         <img

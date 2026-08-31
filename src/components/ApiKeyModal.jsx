@@ -27,7 +27,7 @@ export default function ApiKeyModal({ isOpen, onClose }) {
 
   return (
     <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 font-mono">
-      <div className="w-full max-w-md glass-panel p-6 rounded-2xl border border-noir-700 shadow-2xl">
+      <div className="w-full max-w-md max-h-[90vh] overflow-y-auto glass-panel p-5 sm:p-6 rounded-2xl border border-noir-700 shadow-2xl">
         <div className="flex items-center justify-between pb-3 mb-4 border-b border-noir-800">
           <div className="flex items-center space-x-2">
             <div className="p-2 rounded-lg bg-amber-500/10 text-amber-400">
@@ -35,10 +35,10 @@ export default function ApiKeyModal({ isOpen, onClose }) {
             </div>
             <div>
               <h3 className="text-sm font-bold font-display text-white">
-                Groq API Configuration
+                AI Neural Engine Configuration
               </h3>
               <p className="text-[10px] text-noir-400">
-                Powers real-time 5-suspect interrogation and L-Copilot.
+                Powers real-time 5-suspect interrogation, OSINT intelligence, and L-Copilot.
               </p>
             </div>
           </div>
@@ -49,7 +49,7 @@ export default function ApiKeyModal({ isOpen, onClose }) {
 
         <div className="space-y-3 mb-4">
           <label className="block text-xs font-bold text-amber-400 uppercase">
-            Groq API Key (gsk_...)
+            AI Forensic API Key (gsk_...)
           </label>
           <input
             type="password"
@@ -59,7 +59,7 @@ export default function ApiKeyModal({ isOpen, onClose }) {
             className="w-full bg-noir-950 text-xs text-white border border-noir-700 rounded-xl p-3 focus:outline-none focus:border-amber-500"
           />
           <p className="text-[10px] text-noir-400">
-            Stored locally in your browser and used securely to communicate with Groq LLaMA-3.3 LLM.
+            Stored locally in your browser and used securely to power the AI forensic engine.
           </p>
         </div>
 

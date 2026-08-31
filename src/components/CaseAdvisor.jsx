@@ -56,7 +56,7 @@ GENERATE A RIGOROUS INVESTIGATIVE REPORT WITH THESE 4 SECTIONS:
       soundService.playClueFound();
     } catch (e) {
       console.error(e);
-      setAnalysisText("Failed to generate AI case briefing. Please check your Groq API key.");
+      setAnalysisText("Failed to generate AI case briefing. Please verify your API key in Settings.");
     } finally {
       setIsLoading(false);
     }
@@ -95,24 +95,24 @@ GENERATE A RIGOROUS INVESTIGATIVE REPORT WITH THESE 4 SECTIONS:
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-4 h-[calc(100vh-4.5rem)] flex flex-col gap-4 font-mono">
+    <div className="w-full max-w-6xl mx-auto px-3 sm:px-6 py-3 sm:py-4 h-full flex-1 min-h-0 flex flex-col gap-3 sm:gap-4 overflow-hidden font-mono">
       
       {/* Top Banner */}
-      <div className="glass-panel p-4 rounded-2xl border border-noir-800 flex flex-wrap items-center justify-between gap-3">
+      <div className="glass-panel p-3 sm:p-4 rounded-2xl border border-noir-800 flex flex-wrap items-center justify-between gap-2 sm:gap-3 flex-shrink-0">
         <div className="flex items-center space-x-3">
-          <div className="p-2.5 rounded-xl bg-blood-600/20 text-blood-500 border border-blood-500/40">
-            <BrainCircuit className="w-6 h-6 animate-pulse" />
+          <div className="p-2 sm:p-2.5 rounded-xl bg-blood-600/20 text-blood-500 border border-blood-500/40 flex-shrink-0">
+            <BrainCircuit className="w-5 h-5 sm:w-6 sm:h-6 animate-pulse" />
           </div>
           <div>
             <div className="flex items-center space-x-2">
-              <h2 className="text-base font-bold font-display text-white">
+              <h2 className="text-sm sm:text-base font-bold font-display text-white">
                 AI Investigation Director & Case Gap Analyzer
               </h2>
-              <span className="text-[10px] uppercase px-2 py-0.5 rounded bg-blood-950 text-blood-400 border border-blood-800">
+              <span className="hidden sm:inline-block text-[10px] uppercase px-2 py-0.5 rounded bg-blood-950 text-blood-400 border border-blood-800">
                 REAL FORENSIC SYNTHESIZER
               </span>
             </div>
-            <p className="text-xs text-noir-400">
+            <p className="text-[11px] sm:text-xs text-noir-400">
               Active Case: <strong className="text-amber-400">{activeCase.title}</strong> • Direct synthesis of known evidence vs missing leads.
             </p>
           </div>
@@ -122,7 +122,7 @@ GENERATE A RIGOROUS INVESTIGATIVE REPORT WITH THESE 4 SECTIONS:
           <button
             onClick={fetchCaseBriefing}
             disabled={isLoading}
-            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-noir-900 hover:bg-noir-800 text-xs text-amber-300 border border-noir-700 transition-all"
+            className="flex items-center space-x-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-noir-900 hover:bg-noir-800 text-xs text-amber-300 border border-noir-700 transition-all"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />
             <span>Re-Analyze Case</span>
@@ -130,7 +130,7 @@ GENERATE A RIGOROUS INVESTIGATIVE REPORT WITH THESE 4 SECTIONS:
 
           <button
             onClick={onOpenCaseGenerator}
-            className="flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl bg-cyber-cyan hover:bg-cyan-400 text-noir-950 font-bold text-xs shadow-neon-cyan transition-all"
+            className="flex items-center space-x-1.5 px-3 sm:px-3.5 py-1.5 rounded-xl bg-cyber-cyan hover:bg-cyan-400 text-noir-950 font-bold text-xs shadow-neon-cyan transition-all"
           >
             <FolderPlus className="w-3.5 h-3.5" />
             <span>Start New Real Case</span>
@@ -139,42 +139,42 @@ GENERATE A RIGOROUS INVESTIGATIVE REPORT WITH THESE 4 SECTIONS:
       </div>
 
       {/* Main Analysis Display */}
-      <div className="flex-1 glass-panel p-6 rounded-2xl border border-noir-800 flex flex-col justify-between overflow-hidden shadow-2xl bg-noir-950">
+      <div className="flex-1 min-h-0 glass-panel p-4 sm:p-6 rounded-2xl border border-noir-800 flex flex-col justify-between overflow-hidden shadow-2xl bg-noir-950">
         
         {/* Analysis Stream */}
-        <div className="flex-1 overflow-y-auto space-y-4 pr-2 font-mono text-xs leading-relaxed text-noir-200">
+        <div className="flex-1 min-h-0 overflow-y-auto space-y-4 pr-2 font-mono text-xs leading-relaxed text-noir-200">
           {isLoading && !analysisText ? (
             <div className="h-full flex flex-col items-center justify-center space-y-3 text-amber-400">
               <Bot className="w-8 h-8 animate-spin text-blood-500" />
-              <p className="text-xs">Groq AI is synthesizing known facts, timeline contradictions, and forensic gaps...</p>
+              <p className="text-xs">Detective AI is synthesizing known facts, timeline contradictions, and forensic gaps...</p>
             </div>
           ) : (
-            <div className="bg-black/50 p-5 rounded-xl border border-white/5 whitespace-pre-wrap leading-relaxed">
+            <div className="bg-black/50 p-4 sm:p-5 rounded-xl border border-white/5 whitespace-pre-wrap leading-relaxed">
               {analysisText}
             </div>
           )}
         </div>
 
         {/* Input Question Bar */}
-        <div className="mt-4 pt-3 border-t border-noir-800 flex items-center space-x-2">
+        <div className="mt-3 pt-3 border-t border-noir-800 flex items-center space-x-2 flex-shrink-0">
           <input
             type="text"
             value={customQuery}
             onChange={(e) => setCustomQuery(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleAskQuestion()}
             placeholder="Ask the AI Director: e.g. 'What is the biggest contradiction in Bikram Shastri's alibi?'..."
-            className="flex-1 bg-noir-900 text-xs text-white placeholder-noir-500 px-4 py-2.5 rounded-xl border border-noir-700 focus:outline-none focus:border-blood-500 font-mono"
+            className="flex-1 bg-noir-900 text-xs text-white placeholder-noir-500 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl border border-noir-700 focus:outline-none focus:border-blood-500 font-mono"
           />
           <button
             onClick={handleAskQuestion}
             disabled={isLoading || !customQuery.trim()}
-            className="p-2.5 rounded-xl bg-blood-600 hover:bg-blood-500 text-white disabled:opacity-40 shadow-neon-red transition-all"
+            className="p-2 sm:p-2.5 rounded-xl bg-blood-600 hover:bg-blood-500 text-white disabled:opacity-40 shadow-neon-red transition-all flex-shrink-0"
           >
             <Send className="w-4 h-4" />
           </button>
           <button
             onClick={handleCopy}
-            className="p-2.5 rounded-xl bg-noir-900 hover:bg-noir-800 text-noir-300 border border-noir-700 transition-all"
+            className="p-2 sm:p-2.5 rounded-xl bg-noir-900 hover:bg-noir-800 text-noir-300 border border-noir-700 transition-all flex-shrink-0"
             title="Copy Report"
           >
             {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}

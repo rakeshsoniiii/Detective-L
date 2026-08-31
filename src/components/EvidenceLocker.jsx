@@ -33,34 +33,34 @@ export default function EvidenceLocker({ activeCase, onDiscoverClue }) {
   });
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 h-[calc(100vh-4.5rem)] flex flex-col gap-4 font-mono">
+    <div className="w-full max-w-7xl mx-auto px-2 sm:px-4 lg:px-6 py-2 sm:py-3 h-full flex-1 min-h-0 flex flex-col gap-3 overflow-hidden font-mono">
       
       {/* Top Dossier Header */}
-      <div className="glass-panel p-4 rounded-2xl border border-noir-800 flex flex-wrap items-center justify-between gap-3">
+      <div className="glass-panel p-3 sm:p-4 rounded-2xl border border-noir-800 flex flex-wrap items-center justify-between gap-2 sm:gap-3 flex-shrink-0">
         <div className="flex items-center space-x-3">
-          <div className="p-2.5 rounded-xl bg-blood-600/10 text-blood-500 border border-blood-500/30">
+          <div className="p-2 sm:p-2.5 rounded-xl bg-blood-600/10 text-blood-500 border border-blood-500/30 flex-shrink-0">
             <FileText className="w-5 h-5" />
           </div>
           <div>
             <div className="flex items-center space-x-2">
-              <h2 className="text-base font-bold font-display text-white">
+              <h2 className="text-sm sm:text-base font-bold font-display text-white">
                 Official Case File: {activeCase.title}
               </h2>
               <span className="text-[10px] uppercase px-2 py-0.5 rounded bg-amber-950 text-amber-400 border border-amber-800">
                 {activeCase.difficulty}
               </span>
             </div>
-            <p className="text-xs text-noir-400 mt-0.5">
+            <p className="text-[11px] sm:text-xs text-noir-400 mt-0.5">
               Victim: <strong className="text-white">{activeCase.victim}</strong> • TOD: <strong className="text-amber-300">{activeCase.timeOfDeath}</strong>
             </p>
           </div>
         </div>
 
         {/* View mode toggle */}
-        <div className="flex items-center space-x-1 bg-noir-900 p-1 rounded-xl border border-noir-800">
+        <div className="flex items-center space-x-1 bg-noir-900 p-1 rounded-xl border border-noir-800 overflow-x-auto no-scrollbar">
           <button
             onClick={() => { soundService.playTypewriter(); setViewMode('clues'); }}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+            className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap ${
               viewMode === 'clues' ? 'bg-blood-600 text-white shadow-neon-red' : 'text-noir-400 hover:text-white'
             }`}
           >
@@ -68,21 +68,21 @@ export default function EvidenceLocker({ activeCase, onDiscoverClue }) {
           </button>
           <button
             onClick={() => { soundService.playTypewriter(); setViewMode('timeline'); }}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+            className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap ${
               viewMode === 'timeline' ? 'bg-amber-600 text-noir-950 shadow-neon-amber' : 'text-noir-400 hover:text-white'
             }`}
           >
-            Suspect Timeline Matrix
+            Suspect Timeline
           </button>
         </div>
       </div>
 
       {/* Main Content Area */}
       {viewMode === 'clues' ? (
-        <div className="flex-1 grid grid-cols-1 lg:grid-cols-3 gap-4 overflow-hidden">
+        <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-3 gap-3 overflow-hidden">
           
           {/* LEFT 2 COLUMNS: Clue Cards Grid */}
-          <div className="lg:col-span-2 glass-panel p-4 rounded-2xl border border-noir-800 flex flex-col overflow-hidden">
+          <div className="lg:col-span-2 glass-panel p-3 sm:p-4 rounded-2xl border border-noir-800 flex flex-col min-h-0 overflow-hidden">
             
             {/* Category Filter */}
             <div className="flex items-center space-x-2 mb-4 pb-2 border-b border-noir-800 overflow-x-auto no-scrollbar">

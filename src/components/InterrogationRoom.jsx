@@ -181,13 +181,13 @@ export default function InterrogationRoom({ activeCase, onDiscoverClue }) {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-3 sm:px-6 py-4 h-[calc(100vh-4.5rem)] flex flex-col lg:flex-row gap-4">
+    <div className="w-full max-w-7xl mx-auto px-2 sm:px-4 lg:px-6 py-2 sm:py-3 h-full flex-1 min-h-0 flex flex-col lg:flex-row gap-3 overflow-hidden">
       
       {/* LEFT COLUMN: 5-Suspect Matrix & Biometric HUD */}
-      <div className="w-full lg:w-80 flex flex-col gap-3 flex-shrink-0">
+      <div className="w-full lg:w-80 flex flex-col gap-2.5 flex-shrink-0 min-h-0 max-h-full overflow-y-auto pr-1">
         
         {/* Suspect Selector Cards */}
-        <div className="glass-panel p-3 rounded-2xl border border-noir-800 flex flex-col">
+        <div className="glass-panel p-3 rounded-2xl border border-noir-800 flex flex-col flex-shrink-0">
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-mono font-bold text-white flex items-center space-x-1.5">
               <Users className="w-4 h-4 text-blood-500" />
@@ -326,13 +326,13 @@ export default function InterrogationRoom({ activeCase, onDiscoverClue }) {
 
       </div>
 
-      {/* RIGHT COLUMN: Interrogation Terminal & Cross-Examination */}
-      <div className="flex-1 glass-panel rounded-2xl border border-noir-800 flex flex-col overflow-hidden shadow-2xl">
+      {/* RIGHT COLUMN: Interactive Interrogation Console */}
+      <div className="flex-1 min-h-0 glass-panel rounded-2xl border border-noir-800 flex flex-col overflow-hidden shadow-2xl">
         
         {/* Terminal Header */}
-        <div className="p-3.5 border-b border-noir-800 bg-noir-950/80 flex items-center justify-between">
+        <div className="p-3 sm:p-3.5 border-b border-noir-800 bg-noir-950/80 flex items-center justify-between flex-shrink-0">
           <div className="flex items-center space-x-3">
-            <div className="relative">
+            <div className="relative flex-shrink-0">
               <img
                 src={currentSuspect.avatar}
                 alt={currentSuspect.name}
@@ -355,10 +355,10 @@ export default function InterrogationRoom({ activeCase, onDiscoverClue }) {
             </div>
           </div>
 
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 flex-shrink-0">
             <button
               onClick={() => setIsConfrontModalOpen(true)}
-              className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-blood-600 hover:bg-blood-500 text-xs font-mono text-white font-bold shadow-neon-red transition-all"
+              className="flex items-center space-x-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg bg-blood-600 hover:bg-blood-500 text-xs font-mono text-white font-bold shadow-neon-red transition-all"
             >
               <ShieldAlert className="w-3.5 h-3.5" />
               <span>Confront Evidence</span>
@@ -367,7 +367,7 @@ export default function InterrogationRoom({ activeCase, onDiscoverClue }) {
         </div>
 
         {/* Live Conversation Stream */}
-        <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-noir-950/50 font-mono">
+        <div className="flex-1 min-h-0 p-3 sm:p-4 overflow-y-auto space-y-3 bg-noir-950/50 font-mono">
           {currentChat.map((msg) => {
             const isDetective = msg.sender === 'detective';
             return (

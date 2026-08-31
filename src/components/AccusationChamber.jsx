@@ -81,22 +81,22 @@ export default function AccusationChamber({ activeCase, onCaseSolved }) {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-6 h-[calc(100vh-4.5rem)] flex flex-col justify-between font-mono">
+    <div className="w-full max-w-4xl mx-auto px-3 sm:px-6 py-3 sm:py-4 h-full flex-1 min-h-0 flex flex-col justify-between overflow-y-auto font-mono">
       
       {!verdictResult ? (
-        <div className="glass-panel p-6 rounded-2xl border border-noir-800 shadow-2xl flex flex-col justify-between flex-1 overflow-y-auto">
+        <div className="glass-panel p-4 sm:p-6 rounded-2xl border border-noir-800 shadow-2xl flex flex-col justify-between flex-1">
           
           {/* Header */}
           <div>
-            <div className="flex items-center space-x-3 pb-4 border-b border-noir-800 mb-6">
-              <div className="p-3 rounded-xl bg-blood-600/20 text-blood-500 border border-blood-500/40">
-                <Gavel className="w-6 h-6" />
+            <div className="flex items-center space-x-3 pb-3 sm:pb-4 border-b border-noir-800 mb-4 sm:mb-6">
+              <div className="p-2 sm:p-3 rounded-xl bg-blood-600/20 text-blood-500 border border-blood-500/40 flex-shrink-0">
+                <Gavel className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
               <div>
-                <h2 className="text-lg font-bold font-display text-white">
+                <h2 className="text-base sm:text-lg font-bold font-display text-white">
                   Grand Jury Accusation & Arrest Warrant Chamber
                 </h2>
-                <p className="text-xs text-noir-400">
+                <p className="text-[11px] sm:text-xs text-noir-400">
                   Case File: <strong className="text-amber-400">{activeCase.title}</strong> • Present the indictment to the Chief of Police.
                 </p>
               </div>
