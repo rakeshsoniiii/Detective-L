@@ -12,7 +12,10 @@ import {
   Key, 
   Sparkles, 
   FolderOpen,
-  BrainCircuit
+  BrainCircuit,
+  Clock,
+  Microscope,
+  Scale
 } from 'lucide-react';
 import { soundService } from '../services/soundService';
 
@@ -32,9 +35,12 @@ export default function Navbar({
     { id: 'advisor', label: 'AI Director', icon: BrainCircuit },
     { id: 'pinboard', label: 'Connect Dots', icon: Network },
     { id: 'interrogate', label: 'Interrogation', icon: Users },
+    { id: 'timeline', label: 'Timeline', icon: Clock },
     { id: 'crimescene', label: 'Crime Scene', icon: Camera },
     { id: 'osint', label: 'OSINT Lab', icon: Search },
+    { id: 'forensiclab', label: 'Forensic Lab', icon: Microscope },
     { id: 'evidence', label: 'Dossier', icon: FileText },
+    { id: 'chargesheet', label: 'Chargesheet', icon: Scale },
     { id: 'verdict', label: 'Accusation', icon: Gavel },
   ];
 

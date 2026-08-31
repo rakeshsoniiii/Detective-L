@@ -9,6 +9,9 @@ import AccusationChamber from './components/AccusationChamber';
 import CaseGeneratorModal from './components/CaseGeneratorModal';
 import ApiKeyModal from './components/ApiKeyModal';
 import CaseAdvisor from './components/CaseAdvisor';
+import CaseTimeline from './components/CaseTimeline';
+import ForensicLab from './components/ForensicLab';
+import ChargesheetExport from './components/ChargesheetExport';
 import { INITIAL_CASES } from './data/cases';
 
 export default function App() {
@@ -151,8 +154,21 @@ export default function App() {
           />
         )}
 
+        {currentTab === 'timeline' && (
+          <CaseTimeline
+            activeCase={activeCase}
+          />
+        )}
+
         {currentTab === 'osint' && (
           <OsintLab
+            activeCase={activeCase}
+            onDiscoverClue={handleDiscoverClue}
+          />
+        )}
+
+        {currentTab === 'forensiclab' && (
+          <ForensicLab
             activeCase={activeCase}
             onDiscoverClue={handleDiscoverClue}
           />
@@ -162,6 +178,12 @@ export default function App() {
           <EvidenceLocker
             activeCase={activeCase}
             onDiscoverClue={handleDiscoverClue}
+          />
+        )}
+
+        {currentTab === 'chargesheet' && (
+          <ChargesheetExport
+            activeCase={activeCase}
           />
         )}
 

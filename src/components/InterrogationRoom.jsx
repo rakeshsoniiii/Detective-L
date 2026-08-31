@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { 
   Users, 
   Send, 
@@ -15,10 +15,23 @@ import {
   CheckCircle2, 
   Lock, 
   BrainCircuit,
-  CornerDownRight
+  CornerDownRight,
+  Mic,
+  MicOff,
+  Volume2,
+  VolumeX
 } from 'lucide-react';
 import { interrogateSuspect, consultDetectiveL } from '../services/groqService';
 import { soundService } from '../services/soundService';
+
+// Voice pitch/rate profiles per suspect index for distinct TTS voices
+const VOICE_PROFILES = [
+  { pitch: 0.7, rate: 0.85 },  // Deep, slow — intimidating
+  { pitch: 1.0, rate: 1.0 },   // Normal — bureaucratic  
+  { pitch: 1.3, rate: 1.1 },   // Higher, faster — nervous
+  { pitch: 0.85, rate: 0.9 },  // Slightly deep, measured
+  { pitch: 1.1, rate: 1.05 },  // Medium-high, natural
+];
 
 export default function InterrogationRoom({ activeCase, onDiscoverClue }) {
   const [selectedSuspectId, setSelectedSuspectId] = useState(activeCase.suspects[0]?.id);
@@ -35,6 +48,13 @@ export default function InterrogationRoom({ activeCase, onDiscoverClue }) {
   const [isLConsulting, setIsLConsulting] = useState(false);
   const [lAdvice, setLAdvice] = useState('');
   const [isLDrawerOpen, setIsLDrawerOpen] = useState(false);
+
+  // Voice STT/TTS State
+  const [isListening, setIsListening] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [voiceWaveform, setVoiceWaveform] = useState([0, 0, 0, 0, 0]);
+  const recognitionRef = useRef(null);
+  const waveformIntervalRef = useRef(null);
 
   const messagesEndRef = useRef(null);
 
@@ -72,8 +92,109 @@ export default function InterrogationRoom({ activeCase, onDiscoverClue }) {
     }
   }, [currentTelemetry.bpm]);
 
+  // Cleanup voice on unmount
+  useEffect(() => {
+    return () => {
+      if (recognitionRef.current) recognitionRef.current.abort();
+      window.speechSynthesis?.cancel();
+      clearInterval(waveformIntervalRef.current);
+    };
+  }, []);
+
+  // STT: Start/Stop listening
+  const toggleVoiceInput = useCallback(() => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert('Speech Recognition is not supported in this browser. Use Chrome or Edge.');
+      return;
+    }
+
+    if (isListening) {
+      recognitionRef.current?.stop();
+      setIsListening(false);
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.lang = 'en-US';
+
+    recognition.onresult = (event) => {
+      const transcript = Array.from(event.results)
+        .map(r => r[0].transcript)
+        .join('');
+      setInputText(transcript);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+
+    recognition.onerror = () => {
+      setIsListening(false);
+    };
+
+    recognitionRef.current = recognition;
+    recognition.start();
+    setIsListening(true);
+    soundService.playTypewriter();
+  }, [isListening]);
+
+  // TTS: Speak suspect dialogue aloud
+  const speakSuspectDialogue = useCallback((text, suspectIndex = 0) => {
+    if (!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    const profile = VOICE_PROFILES[suspectIndex % VOICE_PROFILES.length];
+    utterance.pitch = profile.pitch;
+    utterance.rate = profile.rate;
+    utterance.volume = 1.0;
+
+    // Try to pick a voice
+    const voices = window.speechSynthesis.getVoices();
+    if (voices.length > 0) {
+      const preferred = voices.find(v => v.lang.startsWith('en') && v.name.includes('Male')) ||
+                        voices.find(v => v.lang.startsWith('en')) ||
+                        voices[0];
+      if (preferred) utterance.voice = preferred;
+    }
+
+    utterance.onstart = () => {
+      setIsSpeaking(true);
+      // Animate waveform based on stress
+      waveformIntervalRef.current = setInterval(() => {
+        const stressMultiplier = Math.max(1, currentTelemetry.stress / 30);
+        setVoiceWaveform([
+          Math.random() * 20 * stressMultiplier + 5,
+          Math.random() * 30 * stressMultiplier + 10,
+          Math.random() * 25 * stressMultiplier + 8,
+          Math.random() * 28 * stressMultiplier + 6,
+          Math.random() * 18 * stressMultiplier + 4,
+        ]);
+      }, 120);
+    };
+
+    utterance.onend = () => {
+      setIsSpeaking(false);
+      setVoiceWaveform([0, 0, 0, 0, 0]);
+      clearInterval(waveformIntervalRef.current);
+    };
+
+    window.speechSynthesis.speak(utterance);
+  }, [currentTelemetry.stress]);
+
+  const stopSpeaking = useCallback(() => {
+    window.speechSynthesis?.cancel();
+    setIsSpeaking(false);
+    setVoiceWaveform([0, 0, 0, 0, 0]);
+    clearInterval(waveformIntervalRef.current);
+  }, []);
+
   const handleSelectSuspect = (suspectId) => {
     soundService.playTypewriter();
+    stopSpeaking();
     setSelectedSuspectId(suspectId);
     setSelectedClueToConfront(null);
   };
@@ -398,6 +519,18 @@ export default function InterrogationRoom({ activeCase, onDiscoverClue }) {
                 }`}>
                   <p className="whitespace-pre-wrap">{msg.content}</p>
                   
+                  {/* TTS Play button for suspect messages */}
+                  {!isDetective && msg.content && (
+                    <button
+                      onClick={() => speakSuspectDialogue(msg.content, activeCase.suspects.findIndex(s => s.id === selectedSuspectId))}
+                      className="mt-2 flex items-center space-x-1 text-[10px] text-noir-400 hover:text-cyber-cyan transition-all"
+                      title="Listen to suspect's response"
+                    >
+                      <Volume2 className="w-3 h-3" />
+                      <span>Play Voice</span>
+                    </button>
+                  )}
+
                   {msg.telltaleSign && (
                     <div className="mt-2 pt-2 border-t border-white/5 text-[10px] text-amber-400/80 italic flex items-center space-x-1">
                       <Eye className="w-3 h-3 text-amber-400 flex-shrink-0" />
@@ -435,7 +568,45 @@ export default function InterrogationRoom({ activeCase, onDiscoverClue }) {
         </div>
 
         {/* Interrogation Input Bar */}
+        {/* Voice Waveform Bar (visible when TTS is playing) */}
+        {isSpeaking && (
+          <div className="px-3 py-2 bg-blood-950/40 border-t border-blood-800/40 flex items-center space-x-2">
+            <Volume2 className="w-4 h-4 text-blood-400 animate-pulse flex-shrink-0" />
+            <div className="flex items-end space-x-0.5 h-6">
+              {voiceWaveform.map((h, i) => (
+                <div
+                  key={i}
+                  className="w-1.5 bg-blood-500 rounded-full transition-all duration-100"
+                  style={{ height: `${Math.max(3, h)}px` }}
+                />
+              ))}
+            </div>
+            <span className="text-[10px] text-blood-400 font-mono">
+              {currentSuspect.name} speaking... (Stress: {currentTelemetry.stress}%)
+            </span>
+            <button
+              onClick={stopSpeaking}
+              className="ml-auto text-[10px] text-noir-400 hover:text-white px-2 py-1 rounded bg-noir-900 border border-noir-800"
+            >
+              Stop
+            </button>
+          </div>
+        )}
+
         <div className="p-3 bg-noir-900 border-t border-noir-800 flex items-center space-x-2">
+          {/* Voice Input (STT) Button */}
+          <button
+            onClick={toggleVoiceInput}
+            className={`p-2.5 rounded-xl border transition-all flex items-center justify-center flex-shrink-0 ${
+              isListening
+                ? 'bg-blood-600 text-white border-blood-500 shadow-neon-red animate-pulse'
+                : 'bg-noir-950 text-noir-400 border-noir-700 hover:text-white hover:border-noir-600'
+            }`}
+            title={isListening ? 'Stop listening' : 'Speak your question'}
+          >
+            {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+          </button>
+
           <input
             type="text"
             value={inputText}
@@ -445,9 +616,11 @@ export default function InterrogationRoom({ activeCase, onDiscoverClue }) {
                 handleSendMessage();
               }
             }}
-            placeholder={`Question ${currentSuspect.name} directly...`}
+            placeholder={isListening ? '🎙️ Listening... speak your question' : `Question ${currentSuspect.name} directly...`}
             disabled={isLoading}
-            className="flex-1 bg-noir-950 text-xs font-mono text-white placeholder-noir-400 px-4 py-2.5 rounded-xl border border-noir-700 focus:outline-none focus:border-blood-500 transition-all"
+            className={`flex-1 bg-noir-950 text-xs font-mono text-white placeholder-noir-400 px-4 py-2.5 rounded-xl border focus:outline-none transition-all ${
+              isListening ? 'border-blood-500 bg-blood-950/20' : 'border-noir-700 focus:border-blood-500'
+            }`}
           />
 
           <button
