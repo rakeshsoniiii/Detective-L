@@ -371,3 +371,210 @@ Return ONLY valid JSON.`;
 }
 
 export const generateProceduralCase = generateCaseWithAI;
+
+const FALLBACK_MODELS = [
+  'llama-3.3-70b-versatile',
+  'llama-3.1-8b-instant',
+  'llama-3.1-70b-versatile',
+  'llama3-70b-8192',
+  'mixtral-8x7b-32768'
+];
+
+async function callGroqWithFallback(payload, apiKey) {
+  let lastError = null;
+  for (const model of FALLBACK_MODELS) {
+    try {
+      const response = await fetch(GROQ_API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          ...payload,
+          model
+        }),
+      });
+
+      if (response.ok) {
+        return await response.json();
+      }
+
+      const err = await response.json().catch(() => ({}));
+      lastError = new Error(err.error?.message || `Groq API Error: ${response.status}`);
+      
+      if (err.error?.code === 'model_not_found' || err.error?.message?.includes('model')) {
+        continue;
+      }
+      throw lastError;
+    } catch (e) {
+      lastError = e;
+      if (model === FALLBACK_MODELS[FALLBACK_MODELS.length - 1]) {
+        throw lastError;
+      }
+    }
+  }
+  throw lastError;
+}
+
+function generateForensicDeduction({ activeCase, discoveredClues = [], searchResults = [], query = '' }) {
+  const killer = activeCase?.suspects?.find(s => s.isKiller) || activeCase?.suspects?.[0];
+  const cluesList = discoveredClues.length > 0
+    ? discoveredClues.map(c => `• **${c.title}** (${c.category.toUpperCase()}): ${c.description}`).join('\n')
+    : '• Initial crime scene telemetry recorded.';
+
+  const searchSection = searchResults.length > 0
+    ? `\n\n**🌐 Live Multi-Engine Search Summary (${searchResults.length} genuine sources consulted):**\n` +
+      searchResults.slice(0, 4).map(s => `• **[${s.source}${s.subreddit ? ` · ${s.subreddit}` : ''}]** [${s.title}](${s.url})\n  ${s.snippet}`).join('\n\n')
+    : '';
+
+  return `### 🕵️ Detective-L Forensic Intelligence Synthesis
+
+**Case File:** "${activeCase?.title || 'Active Investigation'}"
+
+**1. 📋 Clue Memory & Evidence Analysis:**
+${cluesList}
+
+**2. ⚠️ Key Suspect Contradictions & Timeline Gaps:**
+• **${killer?.name || 'Primary Suspect'}** (${killer?.role}): Public Alibi states "*${killer?.publicAlibi || 'at home'}*", but forensic evidence indicates timeline impossibilities during the critical murder window (${activeCase?.timeOfDeath}).
+• **Physical Evidence Match:** The murder weapon (**${activeCase?.murderWeapon || 'heavy bludgeon'}**) matches trauma patterns at ${activeCase?.location}.${searchSection}
+
+**3. 🎯 High-Leverage Next Move:**
+1. Click **"✨ Auto-Connect Dots"** to establish the physical evidence links on your Pinboard.
+2. Question **${killer?.name}** in the Interrogation Room and press them directly on their alibi discrepancy.
+3. Review the Crime Scene for secondary forensic trace evidence.`;
+}
+
+/**
+ * Interactive Multi-Turn Chatbot with Detective-L
+ * Remembers discovered clues, case suspects, pinboard connections, and synthesizes live search results from Reddit and the Web.
+ */
+export async function chatWithDetectiveL({
+  messages = [],
+  activeCase,
+  discoveredClues = [],
+  currentConnections = [],
+  searchResults = []
+}) {
+  const apiKey = getGroqApiKey();
+  const lastUserMsg = messages[messages.length - 1]?.text || messages[messages.length - 1]?.content || '';
+
+  const discoveredCluesText = (discoveredClues.length > 0 
+    ? discoveredClues.map(c => `• [${c.category.toUpperCase()}] ${c.title}: "${c.description}" (Significance: ${c.significance})`).join('\n')
+    : 'No physical/forensic clues discovered yet.');
+
+  const suspectsText = (activeCase?.suspects || []).map(s => 
+    `• ${s.name} (${s.role}): Alibi: "${s.publicAlibi}" | Demeanor: ${s.personality}`
+  ).join('\n');
+
+  const connectionsText = (currentConnections.length > 0
+    ? currentConnections.map(c => `• ${c.from} ──[${c.label || 'connected'}]──> ${c.to}`).join('\n')
+    : 'No manual connections made on the pinboard yet.');
+
+  const searchContextText = (searchResults.length > 0
+    ? `\n\nLIVE GENUINE MULTI-ENGINE WEB & REDDIT SEARCH RESULTS:\n${searchResults.map((r, i) => `[Source #${i+1} - ${r.source}${r.subreddit ? ` · ${r.subreddit}` : ''}]: ${r.title}\nURL: ${r.url}\nExcerpt: "${r.snippet}"${r.upvotes ? ` (Upvotes: ${r.upvotes})` : ''}`).join('\n\n')}`
+    : '');
+
+  const systemPrompt = `You are "Detective-L", the world's most razor-sharp forensic consulting intelligence and interactive AI investigator.
+You are actively partnering with the user on the criminal case: "${activeCase?.title || 'Active Investigation'}".
+
+CASE FILE DOSSIER:
+- Victim: ${activeCase?.victim} (${activeCase?.victimRole})
+- Crime Location: ${activeCase?.location}
+- Time / Circumstances: ${activeCase?.timeOfDeath}
+- Crime Summary: ${activeCase?.crimeDetails}
+
+PERSONS OF INTEREST (SUSPECTS):
+${suspectsText}
+
+CURRENT DISCOVERED EVIDENCE & CLUES (YOUR ACTIVE MEMORY):
+${discoveredCluesText}
+
+ACTIVE PINBOARD CONNECTIONS:
+${connectionsText}
+${searchContextText}
+
+YOUR INVESTIGATIVE DIRECTIVES:
+1. Ground every analysis in the actual discovered clues and suspect statements. Remember what the detective has found so far.
+2. If live search results (from Reddit, Wikipedia, or Web) are provided above, synthesize them into crisp, verified forensic bullet points and cite the sources.
+3. Formulate deductive hypotheses: connect clues to suspect contradictions, point out timeline impossibilities, and suggest concrete next steps (e.g. who to interrogate next and what question to ask, or what hotspot to search).
+4. Tone: Brilliant, calm, razor-sharp, noir-styled, deductive, and highly encouraging. Use structured markdown formatting (bullet points, bold key findings).`;
+
+  if (!apiKey) {
+    return generateForensicDeduction({ activeCase, discoveredClues, searchResults, query: lastUserMsg });
+  }
+
+  try {
+    const formattedMessages = [
+      { role: 'system', content: systemPrompt },
+      ...messages.slice(-8).map(m => ({
+        role: m.sender === 'user' ? 'user' : 'assistant',
+        content: m.text || m.content || ''
+      }))
+    ];
+
+    const data = await callGroqWithFallback({
+      messages: formattedMessages,
+      temperature: 0.6,
+      max_tokens: 800,
+    }, apiKey);
+
+    return data.choices[0]?.message?.content || generateForensicDeduction({ activeCase, discoveredClues, searchResults, query: lastUserMsg });
+  } catch (err) {
+    console.warn('Groq live call failed, falling back to local forensic synthesizer:', err);
+    return generateForensicDeduction({ activeCase, discoveredClues, searchResults, query: lastUserMsg });
+  }
+}
+
+/**
+ * Automatically computes logical connections between discovered clues, suspects, and crime points
+ */
+export async function computeAutoConnections({ activeCase, discoveredClues = [], currentConnections = [] }) {
+  const existingKeys = new Set(currentConnections.map(c => `${c.from}->${c.to}`));
+  const newConnections = [];
+
+  const suspects = activeCase?.suspects || [];
+  const clues = discoveredClues.length > 0 ? discoveredClues : (activeCase?.clues || []).filter(c => c.discovered);
+
+  clues.forEach(clue => {
+    suspects.forEach(suspect => {
+      const clueText = (clue.title + ' ' + clue.description + ' ' + clue.significance).toLowerCase();
+      const suspectText = (suspect.name + ' ' + suspect.role + ' ' + suspect.publicAlibi + ' ' + suspect.hiddenSecret).toLowerCase();
+
+      const sharesKeyword = suspect.name.split(' ').some(part => part.length > 3 && clueText.includes(part.toLowerCase())) ||
+        (clue.category === 'physical' && suspect.isKiller) ||
+        (clue.category === 'forensic' && (suspectText.includes('doctor') || suspectText.includes('poison') || suspectText.includes('wound') || suspectText.includes('medicine'))) ||
+        (clue.category === 'digital' && (suspectText.includes('call') || suspectText.includes('phone') || suspectText.includes('cctv')));
+
+      const key = `${clue.id}->${suspect.id}`;
+      if (sharesKeyword && !existingKeys.has(key)) {
+        existingKeys.add(key);
+        newConnections.push({
+          from: clue.id,
+          to: suspect.id,
+          label: clue.category === 'physical' ? 'Physical Link' : clue.category === 'forensic' ? 'Forensic Match' : 'Alibi Contradiction',
+          confidence: suspect.isKiller ? 90 : 65
+        });
+      }
+    });
+  });
+
+  if (activeCase?.defaultConnections) {
+    activeCase.defaultConnections.forEach(dc => {
+      const key = `${dc.from}->${dc.to}`;
+      if (!existingKeys.has(key)) {
+        existingKeys.add(key);
+        newConnections.push(dc);
+      }
+    });
+  }
+
+  return {
+    newConnections,
+    totalCreated: newConnections.length,
+    explanation: newConnections.length > 0
+      ? `Auto-connected ${newConnections.length} forensic evidence links across your pinboard.`
+      : `All known clue relationships are already connected on the pinboard.`
+  };
+}
+

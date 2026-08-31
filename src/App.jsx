@@ -72,6 +72,34 @@ export default function App() {
     setCurrentTab('advisor');
   };
 
+  // Handle Auto-Connecting Dots from AI Advisor
+  const handleApplyAutoConnections = (newConnections) => {
+    if (!newConnections || newConnections.length === 0) return;
+    
+    setCases(prevCases => prevCases.map(c => {
+      if (c.id === activeCaseId) {
+        const existing = c.defaultConnections || [];
+        const existingKeys = new Set(existing.map(e => `${e.from}->${e.to}`));
+        const filteredNew = newConnections.filter(n => !existingKeys.has(`${n.from}->${n.to}`));
+        return {
+          ...c,
+          defaultConnections: [...existing, ...filteredNew]
+        };
+      }
+      return c;
+    }));
+
+    // Unlock forensic breakthroughs if matching evidence was connected
+    newConnections.forEach(conn => {
+      if (conn.from?.includes('cloth') || conn.to?.includes('cloth') || conn.from?.includes('syrup')) {
+        handleSolveDeduction('toxin_delivery');
+      }
+      if (conn.from?.includes('patrol') || conn.to?.includes('patrol') || conn.from?.includes('log')) {
+        handleSolveDeduction('alibi_shattered');
+      }
+    });
+  };
+
   return (
     <div className="h-screen w-full bg-noir-950 text-noir-100 flex flex-col overflow-hidden selection:bg-blood-600 selection:text-white">
       
@@ -95,6 +123,9 @@ export default function App() {
           <CaseAdvisor
             activeCase={activeCase}
             onOpenCaseGenerator={() => setIsCaseGenModalOpen(true)}
+            onDiscoverClue={handleDiscoverClue}
+            onApplyConnections={handleApplyAutoConnections}
+            onNavigateToTab={(tab) => setCurrentTab(tab)}
           />
         )}
 
