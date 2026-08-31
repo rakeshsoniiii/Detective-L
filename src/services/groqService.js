@@ -1,6 +1,8 @@
 // Groq API Service for Detective-L (L-System Interrogation & Case Analysis)
 // Powered by Llama-3.3-70B-Versatile on Groq Cloud
 
+import { INITIAL_CASES } from '../data/cases';
+
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const DEFAULT_MODEL = 'llama-3.3-70b-versatile';
 
@@ -269,16 +271,194 @@ Output valid JSON:
   }
 }
 
+function buildProceduralCaseFromPrompt(rawText) {
+  const cleanTitle = rawText.split('\n')[0].replace(/case|investigation|file|real|crime/gi, '').trim() || 'Cold Case Mystery';
+  const displayTitle = cleanTitle.charAt(0).toUpperCase() + cleanTitle.slice(1);
+  const caseId = `case-${Date.now()}`;
+
+  return {
+    id: caseId,
+    title: `The ${displayTitle} Mystery`,
+    subtitle: `Real-World Cold Case Forensic & Suspect Investigation`,
+    difficulty: `Active Investigation (5 Suspects)`,
+    estimatedTime: `25-35 mins`,
+    status: `ACTIVE INVESTIGATION`,
+    victim: `Primary Subject / Victim`,
+    victimRole: `Central Figure in ${displayTitle}`,
+    timeOfDeath: `Late Night (01:00 - 04:00 IST)`,
+    location: `Crime Scene & Key Ground Locations`,
+    overview: `Investigation file generated for ${displayTitle}. Based on submitted dossier notes: "${rawText.slice(0, 300)}...". Central forensic teams have isolated 5 persons of interest with conflicting timelines and hidden motives.`,
+    crimeDetails: `Physical trauma and foul play verified by initial on-scene forensic sweep. Forensic recovery indicates intentional tampering with crime scene telemetry.`,
+    culpritId: `suspect-prime-1`,
+    murderWeapon: `Direct Physical Weapon / Forensic Mechanism`,
+    actualMotive: `Personal dispute and intentional cover-up of incriminating evidence.`,
+    keyContradiction: `Prime suspect claimed complete absence from the area, but digital telemetry and physical traces place them directly at the scene during the critical window.`,
+    suspects: [
+      {
+        id: `suspect-prime-1`,
+        name: `Vikramaditya 'Vikram' Roy`,
+        role: `Primary Person of Interest`,
+        age: 38,
+        avatar: `https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80`,
+        personality: `Defiant, calculative, quick to shift blame to subordinate staff.`,
+        voiceTone: `Sharp, abrupt, nervous when pressed on specific timestamps.`,
+        publicAlibi: `I was at home sleeping and only learned of the incident hours later.`,
+        hiddenSecret: `Was physically present at the premises and attempted to erase digital entry logs.`,
+        isKiller: true,
+        vulnerabilities: `Digital CCTV entry timestamp and discarded physical trace evidence.`
+      },
+      {
+        id: `suspect-duty-officer-2`,
+        name: `Inspector Rajiv Sen`,
+        role: `On-Duty Watch Supervisor`,
+        age: 44,
+        avatar: `https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80`,
+        personality: `Bureaucratic, exhausted, defensive about institutional lapses.`,
+        voiceTone: `Authoritative, defensive.`,
+        publicAlibi: `I was stationed at the control desk continuously during the shift.`,
+        hiddenSecret: `Left the duty desk unattended for 45 minutes during the critical murder window.`,
+        isKiller: false,
+        vulnerabilities: `Duty transfer register logbook gaps.`
+      },
+      {
+        id: `suspect-associate-3`,
+        name: `Dr. Ananya Mukherjee`,
+        role: `Senior Colleague & Department Associate`,
+        age: 34,
+        avatar: `https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80`,
+        personality: `Analytical, guarded, cautious about legal exposure.`,
+        voiceTone: `Precise, measured, polite.`,
+        publicAlibi: `I was working on administrative files in the adjacent wing.`,
+        hiddenSecret: `Discovered a key discrepancy in departmental logs but delayed reporting it.`,
+        isKiller: false,
+        vulnerabilities: `Internal email timestamps and phone message records.`
+      },
+      {
+        id: `suspect-custodian-4`,
+        name: `Rameshwar Mandal`,
+        role: `Night Facility & Keys Custodian`,
+        age: 49,
+        avatar: `https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80`,
+        personality: `Nervous, easily intimidated, observant of late-night movements.`,
+        voiceTone: `Submissive, fearful.`,
+        publicAlibi: `I was in the basement maintenance room.`,
+        hiddenSecret: `Saw the prime suspect enter the restricted corridor after hours.`,
+        isKiller: false,
+        vulnerabilities: `Facility key checkout logbook.`
+      },
+      {
+        id: `suspect-witness-5`,
+        name: `Kunal Ghosh`,
+        role: `Independent Eyewitness & Delivery Driver`,
+        age: 31,
+        avatar: `https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80`,
+        personality: `Street-smart, outspoken, cooperative with investigators.`,
+        voiceTone: `Fast-talking, casual.`,
+        publicAlibi: `I made a delivery at 03:15 AM and left the campus.`,
+        hiddenSecret: `Noticed a suspicious vehicle parked with headlights turned off.`,
+        isKiller: false,
+        vulnerabilities: `Delivery time-stamped invoice and dashcam record.`
+      }
+    ],
+    clues: [
+      {
+        id: `clue-custom-weapon-${Date.now()}`,
+        title: `Recovered Physical Murder Evidence`,
+        category: `physical`,
+        description: `Physical trace evidence recovered from the primary scene displaying foreign biological residue matching the prime suspect.`,
+        significance: `Direct forensic link connecting suspect-prime-1 to the exact crime spot.`,
+        nodeType: `evidence`,
+        discovered: true,
+        x: 420,
+        y: 170
+      },
+      {
+        id: `clue-custom-cctv-${Date.now()}`,
+        title: `Corridor CCTV Timestamp Log`,
+        category: `digital`,
+        description: `Security camera footage capturing an unauthorized individual entering the restricted corridor at 03:42 AM.`,
+        significance: `Refutes the prime suspect's public alibi of being at home.`,
+        nodeType: `evidence`,
+        discovered: true,
+        x: 650,
+        y: 240
+      },
+      {
+        id: `clue-custom-autopsy-${Date.now()}`,
+        title: `Central Forensic Examination Report`,
+        category: `forensic`,
+        description: `Autopsy findings confirming time of death and defensive trauma matching physical struggle.`,
+        significance: `Establishes critical timeline window for interrogation cross-examination.`,
+        nodeType: `evidence`,
+        discovered: true,
+        x: 220,
+        y: 290
+      },
+      {
+        id: `clue-custom-phone-${Date.now()}`,
+        title: `Encrypted Phone & Messaging Log`,
+        category: `digital`,
+        description: `Call detail records showing rapid midnight communications right before the incident.`,
+        significance: `Proves coordination and urgency during the timeline.`,
+        nodeType: `evidence`,
+        discovered: true,
+        x: 450,
+        y: 430
+      }
+    ],
+    defaultConnections: [
+      { id: `conn-c-1`, from: `suspect-prime-1`, to: `clue-custom-weapon-${Date.now()}`, label: `Physical Trace Match` },
+      { id: `conn-c-2`, from: `suspect-prime-1`, to: `clue-custom-cctv-${Date.now()}`, label: `03:42 AM Ingress` }
+    ],
+    osintData: {
+      socialLeaks: [],
+      geoTraces: [],
+      forensics: []
+    },
+    crimeScene: {
+      backgroundImage: `https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1600&q=80`,
+      description: `Crime scene grounds for ${displayTitle}.`,
+      hotspots: []
+    }
+  };
+}
+
 /**
- * Generate a complete playable Case from a custom User Prompt or Real FIR Text
+ * Generate a complete playable Case from a custom User Prompt, Real FIR Text, or curated case matches
  */
-export async function generateCaseWithAI(userCaseIdea) {
-  const apiKey = getGroqApiKey();
-  if (!apiKey) {
-    throw new Error('Groq API Key is required to construct a new AI Case File.');
+export async function generateCaseWithAI(userCaseIdea = '') {
+  const query = userCaseIdea.toLowerCase().trim();
+
+  // 1. Instant match with rich curated real cases
+  if (query.includes('rg kar') || query.includes('kar hospital') || query.includes('kolkata doctor') || query.includes('seminar hall') || query.includes('seminar room') || query.includes('sanjay roy')) {
+    const matched = INITIAL_CASES.find(c => c.id === 'case-rg-kar-2024');
+    if (matched) return { ...matched, id: `case-rg-kar-${Date.now()}` };
   }
 
-  const prompt = `You are the lead case architect for the premier detective investigation suite "Detective-L".
+  if (query.includes('burari') || query.includes('sant nagar') || query.includes('11 death') || query.includes('chundawat')) {
+    const matched = INITIAL_CASES.find(c => c.id === 'case-burari-2018');
+    if (matched) return { ...matched, id: `case-burari-${Date.now()}` };
+  }
+
+  if (query.includes('stoneman') || query.includes('pavement')) {
+    const matched = INITIAL_CASES.find(c => c.id === 'case-stoneman-kolkata');
+    if (matched) return { ...matched, id: `case-stoneman-${Date.now()}` };
+  }
+
+  if (query.includes('noida') || query.includes('aarushi') || query.includes('talwar') || query.includes('hemraj')) {
+    const matched = INITIAL_CASES.find(c => c.id === 'case-noida-2008');
+    if (matched) return { ...matched, id: `case-noida-${Date.now()}` };
+  }
+
+  if (query.includes('zodiac') || query.includes('vallejo') || query.includes('lake berryessa')) {
+    const matched = INITIAL_CASES.find(c => c.id === 'case-zodiac-1969');
+    if (matched) return { ...matched, id: `case-zodiac-${Date.now()}` };
+  }
+
+  const apiKey = getGroqApiKey();
+  if (apiKey) {
+    try {
+      const prompt = `You are the lead case architect for the premier detective investigation suite "Detective-L".
 Generate a complex, realistic, high-stakes murder mystery case based on this user prompt / FIR / real news text:
 "${userCaseIdea}"
 
@@ -290,7 +470,7 @@ REQUIREMENTS:
 
 Output the entire case in valid JSON with this exact schema:
 {
-  "id": "custom-case-" + random string,
+  "id": "custom-case-${Date.now()}",
   "title": "Compelling Noir Case Title",
   "subtitle": "Short dramatic tagline",
   "difficulty": "Hard (5 Suspects)",
@@ -316,16 +496,15 @@ Output the entire case in valid JSON with this exact schema:
       "voiceTone": "How they speak under interrogation",
       "publicAlibi": "Where they claim they were",
       "hiddenSecret": "Secret/scandal they are hiding",
-      "isKiller": boolean,
+      "isKiller": true,
       "vulnerabilities": "Evidence that makes them crack"
     }
-    // EXACTLY 5 SUSPECTS TOTAL
   ],
   "clues": [
     {
       "id": "clue-1",
       "title": "Clue Title",
-      "category": "physical" | "forensic" | "digital" | "testimonial",
+      "category": "physical",
       "description": "Thorough description of the clue and where it was found",
       "significance": "Why this clue matters to the investigation",
       "nodeType": "evidence",
@@ -343,34 +522,28 @@ Output the entire case in valid JSON with this exact schema:
     }
   ]
 }
-
 Return ONLY valid JSON.`;
 
-  const response = await fetch(GROQ_API_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify({
-      model: DEFAULT_MODEL,
-      messages: [{ role: 'user', content: prompt }],
-      temperature: 0.7,
-      max_tokens: 2800,
-      response_format: { type: "json_object" }
-    }),
-  });
+      const data = await callGroqWithFallback({
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.7,
+        max_tokens: 2800,
+        response_format: { type: "json_object" }
+      }, apiKey);
 
-  if (!response.ok) {
-    throw new Error('Groq AI Case Generation failed. Please verify your API key and connection.');
+      const parsed = JSON.parse(data.choices[0].message.content);
+      return parsed;
+    } catch (err) {
+      console.warn('Groq Case Generation failed, falling back to procedural synthesizer:', err);
+    }
   }
 
-  const data = await response.json();
-  const parsed = JSON.parse(data.choices[0].message.content);
-  return parsed;
+  // Fallback Procedural Case Synthesizer (Instant generation with zero blockers)
+  return buildProceduralCaseFromPrompt(userCaseIdea);
 }
 
 export const generateProceduralCase = generateCaseWithAI;
+
 
 const FALLBACK_MODELS = [
   'llama-3.3-70b-versatile',

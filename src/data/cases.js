@@ -445,5 +445,340 @@ export const INITIAL_CASES = [
       description: "Isolated shoreline of Lake Berryessa under dusk sun.",
       hotspots: []
     }
+  },
+
+  // 4. 🏥 REAL INDIAN COLD CASE: The RG Kar Hospital Case (Kolkata, 2024)
+  {
+    id: "case-rg-kar-2024",
+    title: "The RG Kar Hospital Investigation (Kolkata 2024)",
+    subtitle: "The Seminar Hall Midnight Forensic & Timeline Investigation",
+    difficulty: "Active Real Case (Forensics & CCTV)",
+    estimatedTime: "Active Investigation",
+    status: "CBI FORENSIC DOSSIER",
+    victim: "31-Year-Old Post-Graduate Resident Doctor",
+    victimRole: "Duty Resident Doctor (Department of Chest Medicine)",
+    timeOfDeath: "August 9, 2024 (03:00 - 05:00 IST)",
+    location: "3rd Floor Seminar Hall, Emergency Building, RG Kar Medical College, Kolkata",
+    overview: "On August 9, 2024, a 31-year-old post-graduate resident doctor was found dead inside the 3rd-floor seminar room of the Emergency Building at RG Kar Medical College and Hospital, Kolkata, following a strenuous 36-hour duty shift. Central Bureau of Investigation (CBI) and forensic autopsies revealed manual strangulation, severe asphyxiation, and physical trauma. Crucial forensic evidence recovered at the crime scene included a paired Bluetooth earphone, CCTV timestamps showing unauthorized ingress by a civic volunteer, and suspicious hospital renovation orders issued immediately adjacent to the crime scene.",
+    crimeDetails: "Manual strangulation and asphyxiation with deep facial abrasions. Foreign biological DNA recovered beneath the victim's fingernails and on the broken Bluetooth headset casing.",
+    culpritId: "suspect-civic-volunteer",
+    murderWeapon: "Manual Asphyxiation & Physical Restraint",
+    actualMotive: "Violent midnight assault during unauthorized access to the unmonitored 3rd floor seminar room.",
+    keyContradiction: "Civic volunteer Sanjay claimed he never visited the 3rd floor seminar room between 03:30 and 05:00, but high-definition CCTV logs confirm him entering the wing at 04:03 wearing a Bluetooth earphone around his neck, and exiting at 04:37 without the earphone. The identical device was recovered next to the victim's mattress.",
+    suspects: [
+      {
+        id: "suspect-civic-volunteer",
+        name: "Sanjay Roy",
+        role: "Kolkata Police Civic Volunteer (Hospital Welfare Group)",
+        age: 33,
+        avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80",
+        personality: "Aggressive, boasts of high-level police connections, unhindered access to all hospital wards.",
+        voiceTone: "Defiant, evasive, shifts blame to hospital security.",
+        publicAlibi: "I was drinking with friends at the 4th Battalion barrack in Shyambazar and only visited the casualty desk for 5 minutes.",
+        hiddenSecret: "He routinely loitered in restricted hospital departments late at night using his civic volunteer badge to bypass checkpoints.",
+        isKiller: true,
+        vulnerabilities: "Bluetooth headset recovered at crime scene pairing with his personal smartphone, CCTV footage at 04:03 IST."
+      },
+      {
+        id: "suspect-principal-sandip",
+        name: "Dr. Sandip Ghosh",
+        role: "Former Principal, RG Kar Medical College",
+        age: 53,
+        avatar: "https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=400&q=80",
+        personality: "Authoritarian, influential administrative power, quick to dismiss institutional lapses.",
+        voiceTone: "Bureaucratic, evasive, claims administrative protocols were followed.",
+        publicAlibi: "I was at my residence in Beliaghata and was only informed by the medical superintendent at 09:30 AM.",
+        hiddenSecret: "He ordered rapid PWD demolition of the rest area adjacent to the seminar room on August 10, sparking allegations of evidence tampering.",
+        isKiller: false,
+        vulnerabilities: "Urgent PWD renovation requisition order memo, call logs with local police station chiefs."
+      },
+      {
+        id: "suspect-duty-rmo",
+        name: "Dr. Arindam Ghosh",
+        role: "Night Duty Resident Medical Officer (RMO)",
+        age: 39,
+        avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80",
+        personality: "Anxious, stressed, overwhelmed by hospital duty workload.",
+        voiceTone: "Nervous, fast-paced, defensive about departmental supervision.",
+        publicAlibi: "I was in the casualty observation ward managing incoming trauma patients continuously from 02:00 to 06:00.",
+        hiddenSecret: "He knew the seminar room latch was broken and that unauthorized outsiders slept there, but never filed a security complaint.",
+        isKiller: false,
+        vulnerabilities: "Casualty patient triage log discrepancies, CCTV in hallway."
+      },
+      {
+        id: "suspect-security-guard",
+        name: "Tapas Mallick",
+        role: "Emergency Wing Night Security Guard",
+        age: 45,
+        avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80",
+        personality: "Fatigued, easily intimidated by civic volunteers and police personnel.",
+        voiceTone: "Submissive, apologetic, fearful of losing employment.",
+        publicAlibi: "I was stationed at the ground floor emergency triage gate all night.",
+        hiddenSecret: "He allowed civic volunteers to enter restricted staff areas without signing the visitor register in exchange for minor favors.",
+        isKiller: false,
+        vulnerabilities: "Blank security visitor logbook for August 8-9 night shift."
+      },
+      {
+        id: "suspect-intern-colleague",
+        name: "Dr. Aniket Das",
+        role: "PG Trainee Colleague (Chest Medicine)",
+        age: 29,
+        avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80",
+        personality: "Distraught, traumatized, outspoken advocate for resident safety.",
+        voiceTone: "Emotional, angry, highly cooperative with investigators.",
+        publicAlibi: "I had dinner with the victim at 02:00 in the seminar room and went to sleep in the male doctor's duty room at 02:45.",
+        hiddenSecret: "He initially feared speaking out about institutional corruption in medicine procurement at the college.",
+        isKiller: false,
+        vulnerabilities: "CCTV confirmed entry into male duty room at 02:48."
+      }
+    ],
+    clues: [
+      {
+        id: "clue-rgk-bluetooth",
+        title: "Recovered TWS Bluetooth Headset",
+        category: "physical",
+        description: "A black Bluetooth earphone found lying near the wooden podium mattress in the 3rd floor seminar room. Device MAC address matched to Sanjay Roy's seized mobile phone.",
+        significance: "Crucial physical evidence establishing direct presence of the civic volunteer at the exact murder spot.",
+        nodeType: "evidence",
+        discovered: true,
+        x: 420,
+        y: 160
+      },
+      {
+        id: "clue-rgk-cctv-log",
+        title: "Emergency 3rd Floor CCTV Log (04:03 IST)",
+        category: "digital",
+        description: "CCTV timestamp: 04:03 IST - Sanjay Roy observed walking into the 3rd floor seminar corridor with earphone. 04:37 IST - Sanjay exits the building briskly without earphone.",
+        significance: "Irrefutable digital timeline establishing entry, duration, and departure.",
+        nodeType: "evidence",
+        discovered: true,
+        x: 660,
+        y: 220
+      },
+      {
+        id: "clue-rgk-autopsy",
+        title: "Central Forensic Autopsy Report #RGK-24",
+        category: "forensic",
+        description: "Death caused by manual strangulation and asphyxia between 03:00 and 05:00 IST. Deep nail scratch marks, defensive bruising, and epithelial DNA recovered under victim's fingernails.",
+        significance: "Confirms violent struggle and pinpoint time of death matching the CCTV window.",
+        nodeType: "evidence",
+        discovered: true,
+        x: 200,
+        y: 300
+      },
+      {
+        id: "clue-rgk-renovation-order",
+        title: "PWD Urgent Demolition Order Memo #77",
+        category: "digital",
+        description: "Official requisition signed August 10 directing immediate demolition and renovation of the restroom adjacent to the crime scene seminar hall.",
+        significance: "Raised immediate suspicion of institutional evidence destruction.",
+        nodeType: "evidence",
+        discovered: true,
+        x: 440,
+        y: 440
+      },
+      {
+        id: "clue-rgk-duty-roster",
+        title: "Emergency Chest Medicine Duty Roster",
+        category: "testimonial",
+        description: "Hospital shift roster confirming the victim was on an exhausting continuous 36-hour shift without access to a dedicated locked resting room.",
+        significance: "Explains why the victim had to rest in the seminar hall.",
+        nodeType: "evidence",
+        discovered: true,
+        x: 180,
+        y: 180
+      }
+    ],
+    defaultConnections: [
+      { id: "conn-rgk-1", from: "suspect-civic-volunteer", to: "clue-rgk-bluetooth", label: "MAC Address Match" },
+      { id: "conn-rgk-2", from: "suspect-civic-volunteer", to: "clue-rgk-cctv-log", label: "04:03 CCTV Timestamp" },
+      { id: "conn-rgk-3", from: "suspect-principal-sandip", to: "clue-rgk-renovation-order", label: "Signed Renovation Memo" }
+    ],
+    osintData: {
+      socialLeaks: [
+        {
+          id: "osint-rgk-1",
+          target: "Kolkata Police & CBI Central Gazette",
+          platform: "Press Information Bureau & Court Filings",
+          timestamp: "2024-08-14 11:00 IST",
+          snippet: "CBI chargesheet highlights forensic DNA profiling, Bluetooth earphone pairing, and 04:03 CCTV corridor telemetry.",
+          threatLevel: "Critical",
+          notes: "Official investigation record."
+        }
+      ],
+      geoTraces: [
+        {
+          id: "geo-rgk-1",
+          subject: "Sanjay Roy (Civic Volunteer)",
+          device: "Mobile Tower CDR & Bluetooth Log",
+          logs: [
+            { time: "01:00", tower: "Shyambazar Outpost", status: "Active on cell network" },
+            { time: "04:03", tower: "RG Kar Emergency Wing", status: "CCTV recorded entering 3rd floor" },
+            { time: "04:37", tower: "RG Kar Main Gate", status: "CCTV recorded leaving campus" }
+          ]
+        }
+      ],
+      forensics: [
+        {
+          id: "forensic-rgk-1",
+          title: "CFSL Central DNA Match Report",
+          fileType: "Forensic Genetics File",
+          preview: "Biological DNA recovered from victim's fingernails and the crime scene Bluetooth earphone exhibits a 99.99% match with sample #SR-01 (Sanjay Roy).",
+          verified: true
+        }
+      ]
+    },
+    crimeScene: {
+      backgroundImage: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1600&q=80",
+      description: "3rd Floor Seminar Hall of RG Kar Hospital Emergency Building. Dimly lit institutional hall, podium stage, scattered medical notebooks, unlatched entry door.",
+      hotspots: [
+        {
+          id: "hotspot-seminar-podium",
+          name: "Podium & Resting Area",
+          x: 48,
+          y: 62,
+          radius: 35,
+          clueId: "clue-rgk-bluetooth",
+          discoveredText: "Beside the wooden stage lies the dropped Bluetooth earphone with visible scuff marks."
+        }
+      ]
+    }
+  },
+
+  // 5. 🏠 REAL INDIAN COLD CASE: The Burari Deaths Mystery (Delhi, 2018)
+  {
+    id: "case-burari-2018",
+    title: "The Burari Deaths Mystery (Delhi 2018)",
+    subtitle: "The 11 Diarized Ritual Deaths in Sant Nagar",
+    difficulty: "Real Cold Case (Psychological & Forensics)",
+    estimatedTime: "Active Investigation",
+    status: "CLOSED (SHARED PSYCHOSIS)",
+    victim: "11 Members of the Chundawat Family",
+    victimRole: "Family Members & Neighborhood Grocery Merchants",
+    timeOfDeath: "June 30 - July 1, 2018 (00:00 - 02:00 IST)",
+    location: "Sant Nagar, Burari, North Delhi",
+    overview: "On the morning of July 1, 2018, 11 members of the Chundawat family were found deceased inside their residence in Burari, Delhi. Ten individuals were discovered suspended in a circular pattern beneath a ceiling iron mesh, while the matriarch lay in an adjacent bedroom. Eleven hand-written diaries spanning 11 years revealed instructions for an elaborate ritual ('Badh Tapasya'). The case remains one of India's most scrutinized psychological autopsies.",
+    crimeDetails: "Asphyxiation by hanging following ritual binding. Zero struggle marks, no forced entry, no defensive trauma. High-potency psychological indoctrination.",
+    culpritId: "suspect-lalit-chundawat",
+    murderWeapon: "Ritual Cotton Ropes & Cloth Bindings",
+    actualMotive: "Delusional belief in supernatural intervention and paternal resurrection via ritual Badh Tapasya.",
+    keyContradiction: "The diaries detailed that the family would not die and that their deceased father would appear to save them, but physical forensic evidence confirmed irreversible ligature asphyxiation.",
+    suspects: [
+      {
+        id: "suspect-lalit-chundawat",
+        name: "Lalit Chundawat",
+        role: "Family Head & Author of Occult Diaries",
+        age: 45,
+        avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80",
+        personality: "Dominant, convinced of auditory visions of his deceased father Bhopal Singh.",
+        voiceTone: "Authoritative, solemn, deeply religious.",
+        publicAlibi: "Inside the home conducting family prayers.",
+        hiddenSecret: "Suffered from untreated post-traumatic stress and induced shared delusional disorder (folie à deux/famille).",
+        isKiller: true,
+        vulnerabilities: "11 handwritten notebooks spanning 2007 to 2018 detailing exact death choreography."
+      },
+      {
+        id: "suspect-occult-baba",
+        name: "Tantrik Chandra Swami",
+        role: "Local Occult Advisor",
+        age: 50,
+        avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80",
+        personality: "Greedy, charismatic, sells protective amulets to local merchants.",
+        voiceTone: "Smooth, persuasive, claims spiritual mastery.",
+        publicAlibi: "I was in Haridwar attending a religious gathering on July 1.",
+        hiddenSecret: "Sold ritual vermilion and copper amulets to Lalit weeks before the incident.",
+        isKiller: false,
+        vulnerabilities: "Bank transfer slips from Lalit's grocery account."
+      },
+      {
+        id: "suspect-builder-gurucharan",
+        name: "Gurucharan Singh",
+        role: "Burari House Contractor & Pipe Installer",
+        age: 48,
+        avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80",
+        personality: "Blunt, practical, bewildered by media conspiracy theories.",
+        voiceTone: "Gruff, straightforward contractor.",
+        publicAlibi: "I was at my shop in Sant Nagar.",
+        hiddenSecret: "Installed 11 plastic water pipes protruding from the house wall matching family counts, creating public hysteria.",
+        isKiller: false,
+        vulnerabilities: "Construction invoice and plumbing layout schematics."
+      },
+      {
+        id: "suspect-neighbor-kuldeep",
+        name: "Kuldeep Sharma",
+        role: "Next-Door Neighbor & First Discoverer",
+        age: 38,
+        avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80",
+        personality: "Shocked, highly visible in news media interviews.",
+        voiceTone: "Trembling, distraught.",
+        publicAlibi: "Walked over to buy milk at 07:15 AM when he found the door open.",
+        hiddenSecret: "Owed Rs. 50,000 credit at the Chundawat plywood shop.",
+        isKiller: false,
+        vulnerabilities: "Plywood ledger notes."
+      },
+      {
+        id: "suspect-psychiatrist-verma",
+        name: "Dr. R. K. Verma",
+        role: "CBI Forensic Psychological Autopsy Consultant",
+        age: 56,
+        avatar: "https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=400&q=80",
+        personality: "Scientific, objective, specializes in collective behavioral disorders.",
+        voiceTone: "Calm, clinical, analytical.",
+        publicAlibi: "Consulting with Delhi Police Crime Branch.",
+        hiddenSecret: "Authored the definitive CBI Psychological Autopsy Report establishing shared delusional disorder.",
+        isKiller: false,
+        vulnerabilities: "Official CBI forensic psychiatric file."
+      }
+    ],
+    clues: [
+      {
+        id: "clue-burari-diaries",
+        title: "11 Handwritten Ritual Diaries (2007-2018)",
+        category: "physical",
+        description: "Recovered from the prayer altar. Exactly describes the 'Badh Tapasya' (Banyan Tree ritual), detailing how family members must blindfold, gag, and tie their limbs.",
+        significance: "Conclusive physical evidence of non-homicidal shared delusional ritual.",
+        nodeType: "evidence",
+        discovered: true,
+        x: 400,
+        y: 180
+      },
+      {
+        id: "clue-burari-cctv",
+        title: "Sant Nagar Lane CCTV Footage (June 30, 22:30 IST)",
+        category: "digital",
+        description: "Shows family members carrying new stools and wires into the house voluntarily at 22:30. Zero external persons entered the premises overnight.",
+        significance: "Rules out third-party home invasion.",
+        nodeType: "evidence",
+        discovered: true,
+        x: 650,
+        y: 260
+      },
+      {
+        id: "clue-burari-autopsy",
+        title: "Delhi Police Forensic Autopsy Report",
+        category: "forensic",
+        description: "All 11 victims died of ante-mortem hanging. Toxicology revealed zero poison, sedatives, or chemical incapacitation in food or viscera.",
+        significance: "Proves voluntary compliance during the ritual without sedation.",
+        nodeType: "evidence",
+        discovered: true,
+        x: 220,
+        y: 320
+      }
+    ],
+    defaultConnections: [
+      { id: "conn-bur-1", from: "suspect-lalit-chundawat", to: "clue-burari-diaries", label: "Handwriting Match" },
+      { id: "conn-bur-2", from: "clue-burari-cctv", to: "clue-burari-autopsy", label: "Voluntary Ingress" }
+    ],
+    osintData: {
+      socialLeaks: [],
+      geoTraces: [],
+      forensics: []
+    },
+    crimeScene: {
+      backgroundImage: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1600&q=80",
+      description: "Sant Nagar two-story residence. Prayer room with brass bells, wooden stool array beneath central ceiling grill.",
+      hotspots: []
+    }
   }
 ];
+
